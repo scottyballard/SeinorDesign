@@ -7,5 +7,5 @@
 <title>Hello World </title>
 </head>
 <body>
-    <%= "Hello World!" %>
+    <%= "Hello World Labor!" %>
 </body></html>
