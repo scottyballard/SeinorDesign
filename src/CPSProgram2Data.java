@@ -31,6 +31,7 @@ public class CPSProgram2Data {
 	wr.write( postData );
 	BufferedReader is=new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	String inputLine;
+	FileWriter f = new FileWriter("CPS2Data.txt");
 	while ((inputLine = is.readLine()) != null)
 	{
 		System.out.println(inputLine);
