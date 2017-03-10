@@ -34,7 +34,9 @@ public class CPSProgram2Data {
 	while ((inputLine = is.readLine()) != null)
 	{
 		System.out.println(inputLine);
+		f.write(inputLine);
 	}
+	f.close();
 	is.close();
 
  }
