@@ -57,7 +57,7 @@ public class GetBLSData {
 		if(result.equals(seriesID))
 			continue;
 		if(result.contains("("))
-			result = result.split("(")[1];
+			result = result.split("\\(")[0];
 		if(result.equals("&nbsp;"))
 			result = "-1";
 		data.add(Double.parseDouble(result));

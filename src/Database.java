@@ -18,7 +18,7 @@ public class Database {
 			System.out.println("Cannot find the driver in the classpath!");
 		}
 		catch (SQLException e) {
-			System.out.println("Error connecting to the mysql database!");
+			System.out.println("Error connecting to the mysql database!"+e);
 		}
 		
 	}
@@ -50,8 +50,10 @@ public class Database {
 	{
 		TableDTO result=new TableDTO();
 		try {
-			rs=stmt.executeQuery("SELECT TableName, TimeInterval, TableData FROM Application_Data WHERE TableName='"+tableName+"';");
+			rs=stmt.executeQuery("SELECT * FROM Application_Data WHERE TableName='"+tableName+"';");
+                        rs.next();
 			String getData=rs.getString(3);
+                        //System.out.println(getData);
 			Gson gson= new Gson();
 			result.setTableName(tableName);
 			result.setTime(TimeInterval.valueOf(rs.getString(2)));
@@ -64,4 +66,17 @@ public class Database {
 		}
 		return result;
 	}
+        boolean createRow(TableDTO table)
+	{
+		try {
+			stmt.execute("INSERT into Application_Data VALUES('"+table.getTableName()+"', '"+table.getTime().toString()+"', '"+table.getDataJson()+"');");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+		
+	}
+        
 }

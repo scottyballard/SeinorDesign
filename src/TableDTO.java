@@ -8,6 +8,11 @@ public class TableDTO {
 	private TimeInterval time;
 	private String tableName;
 	
+        TableDTO()
+        {
+            data = new ArrayList<Double>();
+            time=TimeInterval.MONTHLY;
+        }
 	String getDataJson(){
 		Gson gson=new Gson();
 		return gson.toJson(data.toArray());
@@ -31,5 +36,5 @@ public class TableDTO {
 	public ArrayList<Double> getData() {
 		return data;
 	}
-	
+
 }
