@@ -3,10 +3,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GetBLSData {
 /**
@@ -17,7 +20,7 @@ public class GetBLSData {
  * <p>-1 is used to indicate any missing data from the default 2000-present timeline</p>
  * @throws IOException
  */
- public static ArrayList<Double> getData(String seriesID) throws IOException 
+ public static ArrayList<Double> getData(String seriesID)
  {
 	//Generate the post request used to retrieve the data
 	int currentYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -28,7 +31,10 @@ public class GetBLSData {
 	byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
 	int    postDataLength = postData.length;
 	String request        = "https://data.bls.gov/pdq/SurveyOutputServlet";
-	URL    url            = new URL( request );
+	URL    url;
+     try {
+         url = new URL( request );
+     
 	HttpURLConnection conn= (HttpURLConnection) url.openConnection();           
 	conn.setDoOutput( true );
 	conn.setInstanceFollowRedirects( false );
@@ -63,7 +69,12 @@ public class GetBLSData {
 		data.add(Double.parseDouble(result));
 	}
 	is.close();
-	return data;
+        return data;
+    } catch (Exception ex) {
+         Logger.getLogger(GetBLSData.class.getName()).log(Level.SEVERE, null, ex);
+         return null;
+    }
+	
 
  }
 }
