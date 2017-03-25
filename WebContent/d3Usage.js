@@ -32,19 +32,8 @@
 					'{"Date": 2016, "Value": 59}]'+
 				'}]');
 	
-	// TODO - set the title based on something..
+	// TODO - set the title based on something (program title)?
 	document.querySelector(".title").innerText = "Title";
-	
-	// set up the checkboxes
-	var checkboxDiv = document.getElementById("checkboxMetrics");
-	for (var i = 0; i < theData2.length; i++) {
-		var name = theData2[i].Metric;
-		checkboxDiv.innerHTML +='<div class="checkboxContainer">' +
-		'<input type="checkbox" name="showMetrics" id="' + name + '" checked/>' +
-		'<label for="' + name + '"></label>' +
-		'<span>' + name + '</span>' +
-		'</div>';
-	}
 	
 	// set some info from data to setup graph
 	var info = {};
@@ -60,7 +49,8 @@
 	// create the svg area (width/height defined via css)
 	var svg = d3.select("#graphContent")
 	.append("svg")
-	.append("g");
+	.append("g")
+	.attr("class","gContainer");
 
 	var width = d3.select("svg")[0][0].clientWidth;
 	var height = d3.select("svg")[0][0]	.clientHeight;
@@ -103,14 +93,25 @@
 
 	// "point" to follow mouse for each line array
 	var pointsOnHover = [];
+	
+	// function to show/hide metric lines
+	function update() {
+		if(this.checked){
+			d3.select("svg g.gContainer > path.metric" + this.dataset.metric)[0][0].style.display = "block";
+		}
+		else {
+			d3.selectAll("svg g.gContainer > path.metric" + this.dataset.metric)[0][0].style.display = "none";
+		}
+	}
 
-	// for each metric, graph it by default?
+	// for each metric, graph it by default
 	for (var i = 0; i < theData2.length; i++) {
 		svg.append("svg:path")
 		.attr("d", metricLine(theData2[i].Data))
 		.attr("stroke", color(i))
 		.attr("stroke-width", 2)
-		.attr("fill", "none");
+		.attr("fill", "none")
+		.attr("class","metric" + i);
 		
 		// create "point" to follow mouse
 		var focus = svg.append("g")
@@ -122,7 +123,20 @@
 		.attr("x", 9)
 		.attr("dy", ".35em");
 		pointsOnHover.push(focus);
+		
+		// set up the checkboxes
+		var checkboxDiv = document.getElementById("checkboxMetrics");
+		var name = theData2[i].Metric;
+		checkboxDiv.innerHTML +='<div class="checkboxContainer">' +
+		'<input type="checkbox" name="showMetrics" id="' + name + '" data-metric="' + i + '" checked/>' +
+		//'<label for="' + name + '"></label>' +
+		'<span>' + name + '</span>' +
+		'</div>';
+		
+		d3.selectAll(".checkboxContainer input").on("change", update);
 	}
+	
+	// hook up the checkboxes to the lines
 	
 	// function to find which point the mouse position corresponds to?
 	var bisect = d3.bisector(function(d) { return xScale(d.Date); }).left;
@@ -137,25 +151,24 @@
 		d3.selectAll(".focus")
 		.style("display", "none");
 	})
-	.on("mouseover", function(d){ // on mouse in show line, circles and text
-		d3.selectAll(".focus")
-		.style("display", "block");
-	})	
 	.on("mousemove", function() { // mouse moving over canvas
 		var x0 = d3.mouse(this)[0];
 		for (var i = 0; i < theData2.length; i++) {
-		    var num = bisect(theData2[i].Data, x0, 1);
-		    var d0 = theData2[i].Data[num - 1];
-		    var d1 = theData2[i].Data[num];
-		    var d;
-		    if (!d0 || !d1) {
-		    	d = !d0 ? d1 : d0;
-		    }
-		    else {
-		    	d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
-		    }
-		    pointsOnHover[i].attr("transform", "translate(" + xScale(d.Date) + "," + yScale(d.Value) + ")");
-		    pointsOnHover[i].select("text").text(d.Value);
+			if (d3.selectAll(".checkboxContainer input")[0][i].dataset.metric === i.toString() && d3.selectAll(".checkboxContainer input")[0][i].checked) {
+			    var num = bisect(theData2[i].Data, x0, 1);
+			    var d0 = theData2[i].Data[num - 1];
+			    var d1 = theData2[i].Data[num];
+			    var d;
+			    if (!d0 || !d1) {
+			    	d = !d0 ? d1 : d0;
+			    }
+			    else {
+			    	d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
+			    }
+			    pointsOnHover[i].attr("transform", "translate(" + xScale(d.Date) + "," + yScale(d.Value) + ")");
+			    pointsOnHover[i].select("text").text(d.Value);
+			    pointsOnHover[i][0][0].style.display = "block";
+			}			
 		}
 	});
 	//});
