@@ -11,8 +11,9 @@
 				'"Metric": "MetricName",'+
 				'"MaxY": 80,'+
 				'"Data": ['+
-					'{"Date": 2000, "Value": 42},'+
+					'{"Date": 2000.0, "Value": 42},'+
 					'{"Date": 2001, "Value": 30},'+
+					'{"Date": 2001.4166666, "Value": 35},'+
 					'{"Date": 2002, "Value": 50},'+
 					'{"Date": 2003, "Value": 60},'+
 					'{"Date": 2004, "Value": 58},'+
@@ -50,11 +51,13 @@
 	var svg = d3.select("#graphContent")
 	.append("svg")
 	.append("g")
+	//.attr("transform", "translate(" + 30 + "," + 20 + ")") // left + top
 	.attr("class","gContainer");
 
+	//var width = d3.select(".gContainer")[0][0].clientWidth;
 	var width = d3.select("svg")[0][0].clientWidth;
-	var height = d3.select("svg")[0][0]	.clientHeight;
-	
+	var height = d3.select("svg")[0][0].clientHeight;
+		
 	// scale the data to fit the graph
 	var xScale = d3.scale.linear()
 	        .domain([2000, 2017]) // TODO - years to show. Start(2000)/end date from data? change depending on options?
@@ -90,9 +93,6 @@
 	var metricLine = d3.svg.line()
 	.x(function(d) { return xScale(d.Date); })
 	.y(function(d) { return yScale(d.Value); });
-
-	// "point" to follow mouse for each line array
-	var pointsOnHover = [];
 	
 	// function to show/hide metric lines
 	function update() {
@@ -104,6 +104,9 @@
 		}
 	}
 
+	// "point" to follow mouse for each line array
+	var pointsOnHover = [];
+	
 	// for each metric, graph it by default
 	for (var i = 0; i < theData2.length; i++) {
 		svg.append("svg:path")
@@ -130,14 +133,12 @@
 		checkboxDiv.innerHTML +='<div class="checkboxContainer">' +
 		'<input type="checkbox" name="showMetrics" id="' + name + '" data-metric="' + i + '" checked/>' +
 		//'<label for="' + name + '"></label>' +
-		'<span>' + name + '</span>' +
+		'<span style="color:'+ color(i) + '">' + name + '</span>' +
 		'</div>';
 		
 		d3.selectAll(".checkboxContainer input").on("change", update);
 	}
-	
-	// hook up the checkboxes to the lines
-	
+		
 	// function to find which point the mouse position corresponds to?
 	var bisect = d3.bisector(function(d) { return xScale(d.Date); }).left;
 
@@ -166,9 +167,59 @@
 			    	d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
 			    }
 			    pointsOnHover[i].attr("transform", "translate(" + xScale(d.Date) + "," + yScale(d.Value) + ")");
-			    pointsOnHover[i].select("text").text(d.Value);
+			    pointsOnHover[i].select("text").text("(" + formatDate(d.Date, theData2[i]) + ", " + d.Value + ")");
 			    pointsOnHover[i][0][0].style.display = "block";
 			}			
 		}
 	});
+	
+	var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	var monthNum = [0, 1/12, 2/12, 3/12, 4/12, 5/12, 6/12, 7/12, 8/12, 9/12, 10/12, 11/12, 1];
+	// function to change decimal date to <month year>
+	function formatDate(date, metric) {
+		var formatted = months[0];
+		if (date.toString().includes(".")) {
+			var date2 = Math.round(parseFloat(date.toString().substring(date.toString().indexOf(".")))* 100)/100;
+			for (var i = 0; i < 12; i++) {
+				if (date2 === Math.round(monthNum[i]*100)/100) {
+					formatted = months[i];
+				}
+			}
+		}
+		return formatted + " " + parseInt(date,10);
+	}
+	
+	// Set-up the export button
+	d3.select('#exportButton').on('click', function() {
+		// TODO - shift svg to include axis in img
+		debugger;
+		var doctype = '<?xml version="1.0" standalone="no"?>'
+			  + '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
+		// serialize our SVG XML to a string.
+		var source = (new XMLSerializer()).serializeToString(d3.select("svg").node());
+		// create a file blob of our SVG.
+		var blob = new Blob([ doctype + source], { type: 'image/svg+xml;charset=utf-8' });
+		var url = window.URL.createObjectURL(blob);
+		// Put the svg into an image tag so that the Canvas element can read it in.
+		var img = d3.select('body').append('img')
+		 .attr('width', width)
+		 .attr('height', height)
+		 .node();
+		img.onload = function(){
+		  // Now that the image has loaded, put the image into a canvas element.
+		  var canvas = d3.select('body').append('canvas').node();
+		  canvas.width = width;
+		  canvas.height = height;
+		  var ctx = canvas.getContext('2d');
+		  ctx.drawImage(img, 0, 0);
+		  var canvasUrl = canvas.toDataURL("image/png");
+		  // this is now the base64 encoded version of our PNG! you could optionally 
+		  // redirect the user to download the PNG by sending them to the url with 
+		  //window.location.href= canvasUrl;
+		};
+		// start loading the image.
+		img.src = url;
+	});
+
+	
 	//});

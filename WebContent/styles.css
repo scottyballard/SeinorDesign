@@ -9,6 +9,9 @@ h1 {
     margin-right: 10%;
 }
 
+#graphContent {
+	padding-bottom: 20px;
+}
 svg {
 	height: 500px;
 	width: 700px;
