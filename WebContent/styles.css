@@ -1,0 +1,47 @@
+body {
+	width: 80%;
+	margin: 5% 10% 5%;
+}
+h1 {
+	width: inherit;
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#graphContent {
+	padding-bottom: 20px;
+}
+svg {
+	height: 500px;
+	width: 700px;
+	overflow: visible;
+	}
+@media (max-width: 600px) {
+	svg {
+		height: 500px;
+		width: 350px;
+		/*overflow: visible;*/
+	}
+}
+#checkboxMetrics input {
+	width: 15px;
+	height: 15px;
+}
+/*
+#checkboxMetrics label {
+	width: 15px;
+    height: 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+    margin: -5px 2px 0px 4px;
+} */
+#checkboxMetrics .checkboxContainer {
+	display: inline;
+	position: relative;
+	margin: 5px 10px;
+}
