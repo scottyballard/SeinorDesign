@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html>
+  
+  <head>
+      	<title> Landing Page </title>
+        <!--Fit to screen for iOS-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        
+  <style>
+	* {
+		box-sizing: border-box;
+		font-family: "Comic Sans MS";
+	}
+	p {
+		position: relative;
+		top: 10px;
+		padding: 10px;
+	}
+
+	.header {
+		text-align: center;
+		font-size: 1.75em;
+		margin-top: 25px;
+		margin-bottom: 40px;
+	}
+
+	.buttons 
+	{ 
+    		table-layout: fixed;
+  		width: 75%;
+  		border-collapse: collapse;
+        	color: white;
+	}
+
+	/* desktop view */
+	@media (min-width: 992px) 
+	{
+		.buttons button 
+		{ 
+  			width: 100%;
+      			background-color: #FFFFFF;
+    			color: black;
+    			text-align: center;
+    			text-decoration: none;
+    			display: inline-block;
+    			font-size: 26px;
+    			cursor: pointer;
+		}
+
+		h1
+		{
+			font-size: 40px;
+		}
+		img 
+		{ 
+			padding-top: .25cm;
+    			width: 200px; 
+		}
+	}
+
+	/* tablet view */
+	@media (min-width: 768px) and (max-width: 991px) 
+	{
+
+		.buttons button 
+    		{ 
+  			width: 100%;
+      			background-color: #FFFFFF;
+    			color: black;
+    			text-align: center;
+    			text-decoration: none;
+    			display: inline-block;
+    			font-size: 26px;
+    			cursor: pointer;
+		}
+		h1
+		{
+			font-size: 40px;
+		}
+
+		img 
+		{ 
+			padding-top: .25cm;
+    			width: 200px; 
+		}
+	}
+	/* mobile view larger screens*/
+	@media (min-width: 420px) and (max-width: 767px) 
+	{
+
+		.buttons button 
+    		{ 
+  			width: 100%;
+      			background-color: #FFFFFF;
+    			color: black;
+    			text-align: center;
+    			text-decoration: none;
+    			display: inline-block;
+    			font-size: 20px;
+    			cursor: pointer;
+		}
+		h1
+		{
+			font-size: 35px;
+		}
+
+		img 
+		{ 
+			padding-top: .25cm;
+    			width: 200px; 
+		}
+	}
+
+	/* mobile view smaller screens*/
+	@media (max-width: 419px) 
+	{
+
+		.buttons button 
+    		{ 
+  			width: 100%;
+      			background-color: #FFFFFF;
+		    	color: black;
+    			text-align: center;
+    			text-decoration: none;
+    			display: inline-block;
+    			font-size: 16px;
+    			cursor: pointer;
+		}
+	
+		h1
+		{
+			font-size: 26px;
+		}
+
+		img 
+		{ 
+			padding-top: .5cm;
+    			width: 125px; 
+		}
+	
+		select
+		{
+			width: 125px;
+			font-size: 10px;
+		}
+	}
+    
+  </style>
+
+  </head>
+  
+ 
+  <body>
+
+    <script>
+	
+	function setCookieLabour() {
+    		document.cookie = "Labour Force Survey Program Data";
+		window.location.assign("DataPageAdmin.html")
+	}
+
+	function setCookieCPS1() {
+    		document.cookie = "CPS Program 1 Data";
+		window.location.assign("DataPageAdmin.html")
+	}
+
+	function setCookieCPS2() {
+    		document.cookie = "CPS Program 2 Data";
+		window.location.assign("DataPageAdmin.html")
+	}
+
+	function setCookieJOLTS() {
+    		document.cookie = "JOLTS Program Data";
+		window.location.assign("DataPageAdmin.html")
+	}
+
+	function setCookieECT() {
+    		document.cookie = "ECT Program Data";
+		window.location.assign("DataPageAdmin.html")
+	}
+
+	function setCookieCPI() {
+    		document.cookie = "CPI Program Data";
+		window.location.assign("DataPageAdmin.html")
+	}
+
+	function setCookieEuro() {
+    		document.cookie = "Eurostat Data";
+		window.location.assign("DataPageAdmin.html")
+	}
+	
+    </script>
+
+    <!--The logo for alliance data.-->
+    <img src="http://photos.prnewswire.com/prnvar/20051024/ADSLOGO?max=700" align = right onclick="location.href='https://www.alliancedata.com/';" >
+
+
+    <!--Dropdown menu-->
+	<br>
+	<select >
+		<option selected disabled>Menu</option>
+  		<option value="Administrator settings" onclick="location.href='AdministratorSettings.html';">Administrator Settings</option>
+  		<option value="CPS program 1" onclick="setCookieCPS1()">CPS program 1</option>
+  		<option value="CPS program 2" onclick="setCookieCPS2()">CPS program 2</option>
+  		<option value="JOLTS program" onclick="setCookieJOLTS()" >JOLTS program</option>
+      		<option value="ECT program" onclick="setCookieECT()" >ECT program</option>
+      		<option value="CPI program" onclick="setCookieCPI()" >CPI program</option>
+      		<option value="Labour Force Survey Program" onclick="setCookieLabour()">Labour Force Survey Program</option>
+      		<option value="Eurostat" onclick="setCookieEuro()" >Eurostat</option>
+        	<option value="Edit Sources" onclick="location.href='EditSources.html';">Edit Sources</option>
+        	<option value="Refresh All" onclick="location.href='RefreshAll.html';">Refresh All</option>
+	</select>
+    
+    <br> <br> <br> <br>
+    <h1  align = center>Welcome Administrator</h1>
+    <br> <br>
+
+<table class=buttons align = center>
+ <tr>
+ 	<td><button type="button" onclick="location.href='AdministratorSettings.html';">Administrator Settings</button>
+ <tr>
+    <td><button type="button" onclick="setCookieCPS1()">CPS program 1</button>
+ <tr>
+    <td><button type="button" onclick="setCookieCPS2()">CPS program 2</button>
+ <tr>
+    <td><button type="button" onclick="setCookieJOLTS()">JOLTS program</button>
+ <tr>
+    <td><button type="button" onclick="setCookieECT()">ECT program</button>
+ <tr>
+    <td><button type="button" onclick="setCookieCPI()">CPI program</button>
+ <tr>
+    <td><button type="button" onclick="setCookieLabour()">Labour Force Survey Program</button>
+  <tr>
+    <td><button type="button" onclick="setCookieEuro()">Eurostat</button>
+</table>
+
+  </body>
+
+  
+</html>
