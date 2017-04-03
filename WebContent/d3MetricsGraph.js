@@ -33,8 +33,8 @@
 					'{"Date": 2016, "Value": 59}]'+
 				'}]');
 	
-	// TODO - set the title based on something (program title)?
-	document.querySelector(".title").innerText = "Title";
+	// TODO - set the title based on something (program title)? -> set by cookie
+	//document.querySelector(".title").innerText = "Title";
 	
 	// set some info from data to setup graph
 	var info = {};
@@ -45,13 +45,13 @@
 		}
 	}
 	info.maxY = max;
-	// TODO - if all percentage data, leave max at 100
 	
 	// create the svg area (width/height defined via css)
 	var svg = d3.select("#graphContent")
 	.append("svg")
+	.attr("transform", "translate(" + (25) + "," + (25) + ")") // left + top
 	.append("g")
-	//.attr("transform", "translate(" + 30 + "," + 20 + ")") // left + top
+	.attr("transform", "translate(" + (25) + "," + (-25) + ")") // left + top
 	.attr("class","gContainer");
 
 	//var width = d3.select(".gContainer")[0][0].clientWidth;
@@ -81,10 +81,11 @@
 	// place axis relative to graph
 	svg.append("g")
 	    .attr("class", "axis") //Assign "axis" class
-	    .attr("transform", "translate(0," + height + ")")
+	    .attr("transform", "translate(0," + (height) + ")")
 	    .call(xAxis);
 	svg.append("g")
 	    .attr("class", "axis")
+	    .attr("transform", "translate(0,0)")
 	    .call(yAxis);	
 	
 	//d3.json(filename, function (data) {
@@ -191,8 +192,6 @@
 	
 	// Set-up the export button
 	d3.select('#exportButton').on('click', function() {
-		// TODO - shift svg to include axis in img
-		debugger;
 		var doctype = '<?xml version="1.0" standalone="no"?>'
 			  + '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 		// serialize our SVG XML to a string.
@@ -204,6 +203,7 @@
 		var img = d3.select('body').append('img')
 		 .attr('width', width)
 		 .attr('height', height)
+		 .attr('style', 'display:none')
 		 .node();
 		img.onload = function(){
 		  // Now that the image has loaded, put the image into a canvas element.

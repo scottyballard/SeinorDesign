@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
 <html>
-  
   <head>
-      	<title> Data Page </title>
-        <!--Fit to screen for iOS-->
+	<title>Data Page</title>
+	<!--Fit to screen for iOS-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-        
-  <style>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="d3.min.js"></script>
+	<style>
 	* {
 		box-sizing: border-box;
 		font-family: "Comic Sans MS";
@@ -17,331 +17,264 @@
 		top: 10px;
 		padding: 10px;
 	}
-
 	.header {
 		text-align: center;
 		font-size: 1.75em;
 		margin-top: 25px;
 		margin-bottom: 40px;
 	}
-
-	.buttons 
-	{ 
-    		table-layout: fixed;
-  		width: 75%;
-  		border-collapse: collapse;
-        	color: white;
+	.buttons {
+		table-layout: fixed;
+		width: 75%;
+		border-collapse: collapse;
+		color: white;
 	}
-
-
+	svg {
+		overflow: visible;
+	}
+	#checkboxMetrics .checkboxContainer {
+		display: inline;
+		position: relative;
+		margin: 5px 10px;
+	}
+	#checkboxMetrics input {
+		width: 15px;
+		height: 15px;
+	}
+	
 	/* desktop view */
-	@media (min-width: 992px) 
-	{
-		.buttons button 
-		{ 
-  			width: 100%;
-      			background-color: #FFFFFF;
-    			color: black;
-    			text-align: center;
-    			text-decoration: none;
-    			display: inline-block;
-    			font-size: 26px;
-    			cursor: pointer;
+	@media ( min-width : 992px) {
+		.buttons button {
+			width: 100%;
+			background-color: #FFFFFF;
+			color: black;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 26px;
+			cursor: pointer;
 		}
-
-		h1
-		{
+		h1 {
 			font-size: 40px;
 		}
-
-		.imgLogo 
-		{ 
+		.imgLogo {
 			padding-top: .25cm;
-    			width: 200px; 
+			width: 200px;
 		}
-
-		.imgGraph 
-		{ 
-    			width: 800px; 
+		svg {
+			width: 800px;
+			height: 500px;
 		}
-		.imgRefresh 
-		{ 
+		.imgRefresh {
 			align: middle;
-			margin-top:-30px;
-			width: 45px; 
+			margin-top: -30px;
+			width: 45px;
 		}
-		table
-		{
+		table {
 			width: 800px;
 			text-align: center;
 		}
-		
-
 	}
-
+	
 	/* tablet view */
-	@media (min-width: 768px) and (max-width: 991px) 
-	{
-
-		.buttons button 
-    		{ 
-  			width: 100%;
-      			background-color: #FFFFFF;
-    			color: black;
-    			text-align: center;
-    			text-decoration: none;
-    			display: inline-block;
-    			font-size: 26px;
-    			cursor: pointer;
+	@media ( min-width : 768px) and (max-width: 991px) {
+		.buttons button {
+			width: 100%;
+			background-color: #FFFFFF;
+			color: black;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 26px;
+			cursor: pointer;
 		}
-		h1
-		{
+		h1 {
 			font-size: 40px;
 		}
-
-		.imgLogo
-		{ 
+		.imgLogo {
 			padding-top: .25cm;
-    			width: 200px; 
+			width: 200px;
 		}
-
-		.imgGraph 
-		{ 
-    			width: 600px; 
+		svg {
+			width: 600px;
+			height: 500px;
 		}
-		.imgRefresh 
-		{ 
+		.imgRefresh {
 			align: middle;
-			margin-top:-30px;
-			width: 40px; 
+			margin-top: -30px;
+			width: 40px;
 		}
-		table
-		{
+		table {
 			width: 600px;
 			text-align: center;
 		}
 	}
 	/* mobile view larger screens*/
-	@media (min-width: 420px) and (max-width: 767px) 
-	{
-
-		.buttons button 
-    		{ 
-  			width: 100%;
-      			background-color: #FFFFFF;
-    			color: black;
-    			text-align: center;
-    			text-decoration: none;
-    			display: inline-block;
-    			font-size: 20px;
-    			cursor: pointer;
+	@media ( min-width : 420px) and (max-width: 767px) {
+		.buttons button {
+			width: 100%;
+			background-color: #FFFFFF;
+			color: black;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 20px;
+			cursor: pointer;
 		}
-		h1
-		{
+		h1 {
 			font-size: 35px;
 		}
-
-		.imgLogo
-		{ 
+		.imgLogo {
 			padding-top: .25cm;
-    			width: 200px; 
+			width: 200px;
 		}
-
-		.imgGraph 
-		{ 
-    			width: 420px; 
+		svg {
+			width: 375px;
+			height: 400px;
 		}
-		.imgRefresh 
-		{ 
+		.imgRefresh {
 			align: middle;
-			margin-top:-30px;
-			width: 35px; 
+			margin-top: -30px;
+			width: 35px;
 		}
-		table
-		{
+		table {
 			width: 420px;
 			text-align: center;
 		}
 	}
-
-	/* mobile view smaller screens*/
-	@media (max-width: 419px) 
-	{
-
-		.buttons button 
-    		{ 
-  			width: 100%;
-      			background-color: #FFFFFF;
-		    	color: black;
-    			text-align: center;
-    			text-decoration: none;
-    			display: inline-block;
-    			font-size: 16px;
-    			cursor: pointer;
-		}
 	
-		h1
-		{
+	/* mobile view smaller screens*/
+	@media ( max-width : 419px) {
+		.buttons button {
+			width: 100%;
+			background-color: #FFFFFF;
+			color: black;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			cursor: pointer;
+		}
+		h1 {
 			font-size: 26px;
 		}
-
-		.imgLogo 
-		{ 
+		.imgLogo {
 			padding-top: .5cm;
-    			width: 125px; 
+			width: 125px;
 		}
-
-		.imgGraph 
-		{ 
-    			width: 325px; 
+		svg {
+			width: 300px;
+			height: 400px;
 		}
-		.imgRefresh 
-		{ 
+		.imgRefresh {
 			align: middle;
-			margin-top:-30px;
-			width: 30px; 
+			margin-top: -30px;
+			width: 30px;
 		}
-		table
-		{
+		table {
 			width: 325px;
 			text-align: center;
 		}
-	
-		select
-		{
+		select {
 			width: 125px;
 			font-size: 10px;
 		}
 	}
-    
-  </style>
+	</style>
+</head>
 
-  </head>
-  
- 
-  <body>
+<body>
+	<!--The logo for alliance data.-->
+	<img src="http://photos.prnewswire.com/prnvar/20051024/ADSLOGO?max=700" class="imgLogo" align=right onclick="location.href='https://www.alliancedata.com/';">
 
-    <!--The logo for alliance data.-->
-    <img src="http://photos.prnewswire.com/prnvar/20051024/ADSLOGO?max=700" class = "imgLogo" align = right onclick="location.href='https://www.alliancedata.com/';" >
-
-
-    <!--Dropdown menu-->
+	<!--Dropdown menu-->
 	<br>
-	<select >
+	<select>
 		<option selected disabled>Menu</option>
-  		<option value="Administrator settings" onclick="location.href='AdministratorSettings.html';">Administrator Settings</option>
-  		<option value="CPS program 1" onclick="setCookieCPS1()">CPS program 1</option>
-  		<option value="CPS program 2" onclick="setCookieCPS2()">CPS program 2</option>
-  		<option value="JOLTS program" onclick="setCookieJOLTS()" >JOLTS program</option>
-      		<option value="ECT program" onclick="setCookieECT()" >ECT program</option>
-      		<option value="CPI program" onclick="setCookieCPI()" >CPI program</option>
-      		<option value="Labour Force Survey Program" onclick="setCookieLabour()">Labour Force Survey Program</option>
-      		<option value="Eurostat" onclick="setCookieEuro()" >Eurostat</option>
-        	<option value="Edit Sources" onclick="location.href='EditSources.html';">Edit Sources</option>
-        	<option value="Refresh All" onclick="location.href='RefreshAll.html';">Refresh All</option>
+		<option value="Administrator settings" onclick="location.href='AdministratorSettings.html';">Administrator Settings</option>
+		<option value="CPS program 1" onclick="setCookieTitle('CPS Program 1 Data')">CPS program 1</option>
+		<option value="CPS program 2" onclick="setCookieTitle('CPS Program 2 Data')">CPS program 2</option>
+		<option value="JOLTS program" onclick="setCookieTitle('JOLTS Program Data')">JOLTS program</option>
+		<option value="ECT program" onclick="setCookieTitle('ECT Program Data')">ECT program</option>
+		<option value="CPI program" onclick="setCookieTitle('CPI Program Data')">CPI program</option>
+		<option value="Labour Force Survey Program" onclick="setCookieTitle('Labour Force Survey Program Data')">Labour Force Survey Program</option>
+		<option value="Eurostat" onclick="setCookieTitle('Eurostat Data')">Eurostat</option>
+		<option value="Edit Sources" onclick="location.href='EditSources.html';">Edit Sources</option>
+		<option value="Refresh All" onclick="location.href='RefreshAll.html';">Refresh All</option>
 	</select>
-    
-    <br> <br> <br> <br>
-    <h1 id = "header" align = center>Title of Data Page</h1>
-    <br> 
-    <center>
-    <img src="http://images.gofreedownload.net/rounded-blue-refresh-button-26755.jpg" class = "imgRefresh" onClick="window.location.reload()">
-    </center>
-    <br>
-   
-    <script>
+
+	<br/><br/><br/><br/>
+	<h1 id="header" align=center>Title of Data Page</h1>
+	<br>
+	<center>
+		<img src="http://images.gofreedownload.net/rounded-blue-refresh-button-26755.jpg" class="imgRefresh" onClick="window.location.reload()">
+	</center>
+	<br>
+
+	<script>
     var element = document.getElementById("header");
     element.innerHTML = document.cookie;
 
-
-	function setCookieLabour() {
-    		document.cookie = "Labour Force Survey Program Data";
+	function setCookieTitle(text) {
+    	document.cookie = text;
 		window.location.assign("DataPageAdmin.html")
 	}
-
-	function setCookieCPS1() {
-    		document.cookie = "CPS Program 1 Data";
-		window.location.assign("DataPageAdmin.html")
-	}
-
-	function setCookieCPS2() {
-    		document.cookie = "CPS Program 2 Data";
-		window.location.assign("DataPageAdmin.html")
-	}
-
-	function setCookieJOLTS() {
-    		document.cookie = "JOLTS Program Data";
-		window.location.assign("DataPageAdmin.html")
-	}
-
-	function setCookieECT() {
-    		document.cookie = "ECT Program Data";
-		window.location.assign("DataPageAdmin.html")
-	}
-
-	function setCookieCPI() {
-    		document.cookie = "CPI Program Data";
-		window.location.assign("DataPageAdmin.html")
-	}
-
-	function setCookieEuro() {
-    		document.cookie = "Eurostat Data";
-		window.location.assign("DataPageAdmin.html")
-	}
-	
-
     </script>
-    
-    <center>
-    <img src="http://2.bp.blogspot.com/-0b0WeUIw8gk/TyvqgM5zg1I/AAAAAAAAMDE/iyfZBuymEfU/s1600/EmployPopJan2012.jpg" class = "imgGraph" align="absmiddle">
-    
-     <br><br><br>
+
+	<center>
+		<div id="checkboxMetrics"></div>
+		<br/>
+		<div id="graphContent"></div>
+		<br/><br/><br/>
+		<button id="exportButton">Download Image</button>
+
+		<table border="1">
+			<tr>
+				<th>Year</th>
+				<th>Unemployment</th>
+				<th>Participation</th>
+			</tr>
+			<tr>
+				<td>2016</td>
+				<td>6.32%</td>
+				<td>67.21%</td>
+			</tr>
+			<tr>
+				<td>2015</td>
+				<td>6.71%</td>
+				<td>68.15%</td>
+			</tr>
+			<tr>
+				<td>2014</td>
+				<td>7.21%</td>
+				<td>69.95%</td>
+			</tr>
+			<tr>
+				<td>2013</td>
+				<td>7.82%</td>
+				<td>71.03%</td>
+			</tr>
+			<tr>
+				<td>2012</td>
+				<td>7.65%</td>
+				<td>71.75%</td>
+			</tr>
+			<tr>
+				<td>2011</td>
+				<td>7.99%</td>
+				<td>72.25%</td>
+			</tr>
+			<tr>
+				<td>2010</td>
+				<td>8.85%</td>
+				<td>69.26%</td>
+			</tr>
+		</table>
+	</center>
+	
+	<script type="text/javascript" src="d3MetricsGraph.js"></script>
+	
+</body>
 
 
-    	<table border="1">
-	<tr>
-    		<th>Year</th>
-    		<th>Unemployment</th>
-    		<th>Participation</th>
-  	</tr>
-	<tr>
-		<td>2016</td>
-		<td>6.32%</td>
-		<td>67.21%</td>
-	</tr>
-	<tr>
-		<td>2015</td>
-		<td>6.71%</td>
-		<td>68.15%</td>
-	</tr>
-	<tr>
-		<td>2014</td>
-		<td>7.21%</td>
-		<td>69.95%</td>
-	</tr>
-	<tr>
-		<td>2013</td>
-		<td>7.82%</td>
-		<td>71.03%</td>
-	</tr>
-	<tr>
-		<td>2012</td>
-		<td>7.65%</td>
-		<td>71.75%</td>
-	</tr>
-	<tr>
-		<td>2011</td>
-		<td>7.99%</td>
-		<td>72.25%</td>
-	</tr>
-	<tr>
-		<td>2010</td>
-		<td>8.85%</td>
-		<td>69.26%</td>
-	</tr>
-	</table>
-     </center>
-  </body>
-
-  
 </html>
