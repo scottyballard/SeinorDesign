@@ -4,7 +4,6 @@
  * All data, last 5 years, this year - buttons??
  */
 
-
 	// sample data
 	var theData2 = JSON.parse(
 			'[{' + 
@@ -32,10 +31,7 @@
 					'{"Date": 2005, "Value": 50},'+
 					'{"Date": 2016, "Value": 59}]'+
 				'}]');
-	
-	// TODO - set the title based on something (program title)? -> set by cookie
-	//document.querySelector(".title").innerText = "Title";
-	
+		
 	// set some info from data to setup graph
 	var info = {};
 	var max = 0;
@@ -49,14 +45,21 @@
 	// create the svg area (width/height defined via css)
 	var svg = d3.select("#graphContent")
 	.append("svg")
-	.attr("transform", "translate(" + (25) + "," + (25) + ")") // left + top
+	.attr("transform", "translate(25, 25)") // left + top
 	.append("g")
-	.attr("transform", "translate(" + (25) + "," + (-25) + ")") // left + top
+	.attr("transform", "translate(25, -25)") // left + top
 	.attr("class","gContainer");
 
-	//var width = d3.select(".gContainer")[0][0].clientWidth;
-	var width = d3.select("svg")[0][0].clientWidth;
-	var height = d3.select("svg")[0][0].clientHeight;
+	// save height/width defined in css (different browsers)
+	var width, height;
+	if (typeof InstallTrigger !== 'undefined') {	// firefox
+		width = parseInt(window.getComputedStyle(d3.select("svg")[0][0]).width.slice(0, -2));
+		height = parseInt(window.getComputedStyle(d3.select("svg")[0][0]).height.slice(0, -2));
+	}
+	else {	// chrome...
+		width = d3.select("svg")[0][0].clientWidth;
+		height = d3.select("svg")[0][0].clientHeight;
+	}
 		
 	// scale the data to fit the graph
 	var xScale = d3.scale.linear()
@@ -81,7 +84,7 @@
 	// place axis relative to graph
 	svg.append("g")
 	    .attr("class", "axis") //Assign "axis" class
-	    .attr("transform", "translate(0," + (height) + ")")
+	    .attr("transform", "translate(0," + height + ")")
 	    .call(xAxis);
 	svg.append("g")
 	    .attr("class", "axis")
@@ -133,7 +136,6 @@
 		var name = theData2[i].Metric;
 		checkboxDiv.innerHTML +='<div class="checkboxContainer">' +
 		'<input type="checkbox" name="showMetrics" id="' + name + '" data-metric="' + i + '" checked/>' +
-		//'<label for="' + name + '"></label>' +
 		'<span style="color:'+ color(i) + '">' + name + '</span>' +
 		'</div>';
 		
@@ -190,23 +192,19 @@
 		return formatted + " " + parseInt(date,10);
 	}
 	
-	// Set-up the export button
 	d3.select('#exportButton').on('click', function() {
 		var doctype = '<?xml version="1.0" standalone="no"?>'
 			  + '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 		// serialize our SVG XML to a string.
 		var source = (new XMLSerializer()).serializeToString(d3.select("svg").node());
-		// create a file blob of our SVG.
 		var blob = new Blob([ doctype + source], { type: 'image/svg+xml;charset=utf-8' });
 		var url = window.URL.createObjectURL(blob);
-		// Put the svg into an image tag so that the Canvas element can read it in.
 		var img = d3.select('body').append('img')
 		 .attr('width', width)
 		 .attr('height', height)
 		 .attr('style', 'display:none')
 		 .node();
 		img.onload = function(){
-		  // Now that the image has loaded, put the image into a canvas element.
 		  var canvas = d3.select('body').append('canvas').node();
 		  canvas.width = width;
 		  canvas.height = height;
@@ -217,9 +215,7 @@
 		  // redirect the user to download the PNG by sending them to the url with 
 		  //window.location.href= canvasUrl;
 		};
-		// start loading the image.
 		img.src = url;
 	});
-
 	
 	//});
