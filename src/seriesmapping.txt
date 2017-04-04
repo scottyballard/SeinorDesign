@@ -1,0 +1,17 @@
+Employed,LNS12000000
+Civilian NonInstitutional Population,LNS10000000
+Civilian Labor Force Participation Rate,LNS11300000
+Employed Full Time,LNS12500000
+Employed Part Time,LNS12600000
+Unemployed,LNS13000000
+Unemployment Rate,LNS14000000
+CPS2 Program,LNS15026639
+Job openings,JTS00000000JOR
+Hires,JTS00000000HIR
+Quits,JTS00000000QUR
+Layoffs and discharges,JTS00000000LDR
+Other seperations,JTS00000000OSR
+Private Industry Workers(12month%),CIU2010000000000A
+Private Industry Workers(Index),CIS2010000000000I
+Private Industry Workers(wages and saleries),CIU2020000000000A
+Urban Consumers,CUUR0000SA0
