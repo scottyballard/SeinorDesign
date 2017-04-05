@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,11 +23,10 @@ public class SelectServlet extends HttpServlet {
     }
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		String tableName = request.getParameter("name");
+		String tableName = request.getHeader("name");
 		String jsonResult = DataController.getTable(tableName);
 		PrintWriter print = response.getWriter();
-		print.print(jsonResult);
-		
+		print.print(jsonResult);		
 	}
 
 }

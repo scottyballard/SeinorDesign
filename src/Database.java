@@ -30,7 +30,7 @@ public class Database {
 		catch (SQLException e) {
 			System.out.println("Error connecting to the mysql database!"+e);
 		}
-		createTable();	
+		//createTable();	
 	}
 	boolean singleRefresh(TableDTO table)
 	{
@@ -62,12 +62,12 @@ public class Database {
 		TableDTO result=new TableDTO();
 		try {
 			rs=stmt.executeQuery("SELECT * FROM Application_Data WHERE TableName='"+tableName+"';");
-                        rs.next();
-			String getData=rs.getString(3);
+            rs.next();
+			String getData=rs.getString(2);
                         //System.out.println(getData);
 			Gson gson= new Gson();
 			result.setTableName(tableName);
-			result.setTime(TimeInterval.valueOf(rs.getString(2)));
+			result.setTime(TimeInterval.valueOf(rs.getString(3)));
 			result.setData(gson.fromJson(getData, result.getData().getClass()));
 			
 		} catch (SQLException e) {

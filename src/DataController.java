@@ -5,22 +5,24 @@ import java.util.ArrayList;
 
 public class DataController {
     static Database db = new Database("root","pass","jdbc:mysql://127.0.0.1:3306/new_schema");
-    static void refreshAll()
+    static boolean refreshAll()
     {
+    	boolean result=false;
         ArrayList<String> series = db.getAllSeries();
         ArrayList<String> tableNames = db.getAllTableNames();
         for(int i = 0;i<series.size();i++){
             TableDTO item = new TableDTO();
             item.setData(GetBLSData.getData(series.get(i)));
             item.setTableName(tableNames.get(i));
-            db.singleRefresh(item);
+            result=db.singleRefresh(item);
         }
+        return result;
     }
-    static void singleRefresh(String tableName){
+    static boolean singleRefresh(String tableName){
         TableDTO item = new TableDTO();
         item.setData(GetBLSData.getData(db.getSeriesID(tableName)));
         item.setTableName(tableName);
-        db.singleRefresh(item);
+        return db.singleRefresh(item);
     }
     static String getTable(String tableName)
     {
@@ -38,9 +40,10 @@ public class DataController {
             db.createRow(item);
         }
     }
+    /*
     public static void main(String [] args)
     {
     	//System.out.println(new File(".").getAbsoluteFile());
     	addAll(); 
-    }
+    }*/
 }
