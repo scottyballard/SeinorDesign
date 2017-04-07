@@ -1,11 +1,9 @@
-/**
- * data will have different metrics, so show checkboxes to choose which metric(s)
- * 
- * All data, last 5 years, this year - buttons??
- */
-
-	// sample data
-	var theData2 = JSON.parse(
+//HTTP req
+var req = new XMLHttpRequest();
+req.open("POST", "url");// host/SelectServerlet
+req.send("unemployment");
+req.onreadystatechange = function() {
+	var theData = JSON.parse(
 			'[{' + 
 				'"Metric": "MetricName",'+
 				'"MaxY": 80,'+
@@ -31,13 +29,16 @@
 					'{"Date": 2005, "Value": 50},'+
 					'{"Date": 2016, "Value": 59}]'+
 				'}]');
-		
+	if (req.readyState === XMLHTTPRequest.DONE && req.status == 200) {
+		theData = JSON.parse(req.responseText);
+	}
+	
 	// set some info from data to setup graph
 	var info = {};
 	var max = 0;
-	for (var i = 0; i < theData2.length; i++) {
-		if (theData2[i].MaxY > max) {
-			max = theData2[i].MaxY;
+	for (var i = 0; i < theData.length; i++) {
+		if (theData[i].MaxY > max) {
+			max = theData[i].MaxY;
 		}
 	}
 	info.maxY = max;
@@ -90,9 +91,7 @@
 	    .attr("class", "axis")
 	    .attr("transform", "translate(0,0)")
 	    .call(yAxis);	
-	
-	//d3.json(filename, function (data) {
-	
+		
 	// line function to map data to the graph
 	var metricLine = d3.svg.line()
 	.x(function(d) { return xScale(d.Date); })
@@ -102,9 +101,11 @@
 	function update() {
 		if(this.checked){
 			d3.select("svg g.gContainer > path.metric" + this.dataset.metric)[0][0].style.display = "block";
+			document.querySelector(".tableMetric" + this.dataset.metric).style.display = "block";
 		}
 		else {
 			d3.selectAll("svg g.gContainer > path.metric" + this.dataset.metric)[0][0].style.display = "none";
+			document.querySelector(".tableMetric" + this.dataset.metric).style.display = "none";
 		}
 	}
 
@@ -112,9 +113,9 @@
 	var pointsOnHover = [];
 	
 	// for each metric, graph it by default
-	for (var i = 0; i < theData2.length; i++) {
+	for (var i = 0; i < theData.length; i++) {
 		svg.append("svg:path")
-		.attr("d", metricLine(theData2[i].Data))
+		.attr("d", metricLine(theData[i].Data))
 		.attr("stroke", color(i))
 		.attr("stroke-width", 2)
 		.attr("fill", "none")
@@ -133,11 +134,14 @@
 		
 		// set up the checkboxes
 		var checkboxDiv = document.getElementById("checkboxMetrics");
-		var name = theData2[i].Metric;
+		var name = theData[i].Metric;
 		checkboxDiv.innerHTML +='<div class="checkboxContainer">' +
 		'<input type="checkbox" name="showMetrics" id="' + name + '" data-metric="' + i + '" checked/>' +
 		'<span style="color:'+ color(i) + '">' + name + '</span>' +
 		'</div>';
+		
+		// add each table
+		createTable(name, i);
 		
 		d3.selectAll(".checkboxContainer input").on("change", update);
 	}
@@ -157,11 +161,11 @@
 	})
 	.on("mousemove", function() { // mouse moving over canvas
 		var x0 = d3.mouse(this)[0];
-		for (var i = 0; i < theData2.length; i++) {
+		for (var i = 0; i < theData.length; i++) {
 			if (d3.selectAll(".checkboxContainer input")[0][i].dataset.metric === i.toString() && d3.selectAll(".checkboxContainer input")[0][i].checked) {
-			    var num = bisect(theData2[i].Data, x0, 1);
-			    var d0 = theData2[i].Data[num - 1];
-			    var d1 = theData2[i].Data[num];
+			    var num = bisect(theData[i].Data, x0, 1);
+			    var d0 = theData[i].Data[num - 1];
+			    var d1 = theData[i].Data[num];
 			    var d;
 			    if (!d0 || !d1) {
 			    	d = !d0 ? d1 : d0;
@@ -170,16 +174,51 @@
 			    	d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
 			    }
 			    pointsOnHover[i].attr("transform", "translate(" + xScale(d.Date) + "," + yScale(d.Value) + ")");
-			    pointsOnHover[i].select("text").text("(" + formatDate(d.Date, theData2[i]) + ", " + d.Value + ")");
+			    pointsOnHover[i].select("text").text("(" + formatDate(d.Date, theData[i]) + ", " + d.Value + ")");
 			    pointsOnHover[i][0][0].style.display = "block";
 			}			
 		}
 	});
 	
-	var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-	var monthNum = [0, 1/12, 2/12, 3/12, 4/12, 5/12, 6/12, 7/12, 8/12, 9/12, 10/12, 11/12, 1];
+	// create a table for each metric
+	function createTable(metricName, dataNum) {
+		// Column headers = date and whatever metric is being used 
+		//var col = ["Date", theData[0].Metric];
+		var col = ["Date", metricName];
+
+		// Create the table
+		var table = document.createElement("table");
+		table.classList.add("tableMetric" + dataNum);
+		
+		//Create the table headers using var col[]^^
+		var tr = table.insertRow(-1);                   // TABLE ROW.
+	
+		for (var j = 0; j < col.length; j++) {
+			var th = document.createElement("th");      // TABLE HEADER.
+			th.innerHTML = col[j];
+			tr.appendChild(th);
+	    }
+	
+		// Insert json data into the table
+		tr = table.insertRow(-1);
+		for (var k = 0; k < theData[i]["Data"].length; k++) {
+			tr = table.insertRow(-1);
+        	var tabCell = tr.insertCell(0);
+        	tabCell.innerHTML = formatDate(theData[i]["Data"][k].Date);
+        	var tabCell = tr.insertCell(1);
+        	tabCell.innerHTML = theData[i]["Data"][k].Value;
+        }
+	
+		//Put table into container ready to display
+		var divContainer = document.getElementById("TableHere");
+		divContainer.appendChild(table);
+	}
+	
 	// function to change decimal date to <month year>
-	function formatDate(date, metric) {
+	function formatDate(date) {
+		var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		var monthNum = [0, 1/12, 2/12, 3/12, 4/12, 5/12, 6/12, 7/12, 8/12, 9/12, 10/12, 11/12, 1];
+
 		var formatted = months[0];
 		if (date.toString().includes(".")) {
 			var date2 = Math.round(parseFloat(date.toString().substring(date.toString().indexOf(".")))* 100)/100;
@@ -189,9 +228,10 @@
 				}
 			}
 		}
-		return formatted + " " + parseInt(date,10);
+		return formatted + " " + parseInt(date,10); // 10 added
 	}
 	
+	// export/download as png
 	d3.select('#exportButton').on('click', function() {
 		var doctype = '<?xml version="1.0" standalone="no"?>'
 			  + '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
@@ -217,5 +257,4 @@
 		};
 		img.src = url;
 	});
-	
-	//});
+};

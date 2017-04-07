@@ -70,9 +70,17 @@
 			margin-top: -30px;
 			width: 45px;
 		}
-		table {
+		table, th, td 
+        {
+			margin:10px 0;
+			border:solid 1px #333;
+			padding:2px 4px;
+			font:15px Verdana;
 			width: 800px;
 			text-align: center;
+		}
+		th {
+			font-weight:bold;
 		}
 	}
 	
@@ -104,10 +112,18 @@
 			margin-top: -30px;
 			width: 40px;
 		}
-		table {
+		table, th, td 
+		{
+			margin:10px 0;
+			border:solid 1px #333;
+			padding:2px 4px;
+			font:15px Verdana;
 			width: 600px;
 			text-align: center;
 		}
+		th {
+            font-weight:bold;
+        }
 	}
 	/* mobile view larger screens*/
 	@media ( min-width : 420px) and (max-width: 767px) {
@@ -137,10 +153,18 @@
 			margin-top: -30px;
 			width: 35px;
 		}
-		table {
+		table, th, td 
+        {
+            margin:10px 0;
+            border:solid 1px #333;
+            padding:2px 4px;
+            font:15px Verdana;
 			width: 420px;
 			text-align: center;
-		}
+        }
+        th {
+            font-weight:bold;
+        }
 	}
 	
 	/* mobile view smaller screens*/
@@ -171,10 +195,18 @@
 			margin-top: -30px;
 			width: 30px;
 		}
-		table {
+		table, th, td 
+        {
+            margin:10px 0;
+            border:solid 1px #333;
+            padding:2px 4px;
+            font:15px Verdana;
 			width: 325px;
 			text-align: center;
-		}
+        }
+        th {
+            font-weight:bold;
+        }
 		select {
 			width: 125px;
 			font-size: 10px;
@@ -227,49 +259,7 @@
 		<div id="graphContent"></div>
 		<br/><br/><br/>
 		<button id="exportButton">Download Image</button>
-
-		<table border="1">
-			<tr>
-				<th>Year</th>
-				<th>Unemployment</th>
-				<th>Participation</th>
-			</tr>
-			<tr>
-				<td>2016</td>
-				<td>6.32%</td>
-				<td>67.21%</td>
-			</tr>
-			<tr>
-				<td>2015</td>
-				<td>6.71%</td>
-				<td>68.15%</td>
-			</tr>
-			<tr>
-				<td>2014</td>
-				<td>7.21%</td>
-				<td>69.95%</td>
-			</tr>
-			<tr>
-				<td>2013</td>
-				<td>7.82%</td>
-				<td>71.03%</td>
-			</tr>
-			<tr>
-				<td>2012</td>
-				<td>7.65%</td>
-				<td>71.75%</td>
-			</tr>
-			<tr>
-				<td>2011</td>
-				<td>7.99%</td>
-				<td>72.25%</td>
-			</tr>
-			<tr>
-				<td>2010</td>
-				<td>8.85%</td>
-				<td>69.26%</td>
-			</tr>
-		</table>
+		<div id="TableHere"></div>		
 	</center>
 	
 	<script type="text/javascript" src="d3MetricsGraph.js"></script>
