@@ -7,8 +7,10 @@ import java.io.Reader;
 import java.sql.*;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 ;
@@ -68,7 +70,7 @@ public class Database {
 			Gson gson= new Gson();
 			result.setTableName(tableName);
 			result.setTime(TimeInterval.valueOf(rs.getString(3)));
-			result.setData(gson.fromJson(getData, result.getData().getClass()));
+			result.setData((ArrayList<Data>) gson.fromJson(getData, new TypeToken<List<Data>>(){}.getType()));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

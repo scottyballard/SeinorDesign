@@ -19,7 +19,7 @@ public class GetBLSData {
  * <p>-1 is used to indicate any missing data from the default 2000-present timeline</p>
  * @throws IOException
  */
- public static ArrayList<Double> getData(String seriesID)
+ public static ArrayList<Data> getData(String seriesID)
  {
 	//Generate the post request used to retrieve the data
 	int currentYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -68,7 +68,14 @@ public class GetBLSData {
 		data.add(Double.parseDouble(result));
 	}
 	is.close();
-        return data;
+	double currentDate = 2000;
+	ArrayList<Data> dataList = new ArrayList<>();
+	for(double i : data)
+	{
+		dataList.add(new Data(currentDate, i));
+		currentDate+=1.0/12;
+	}
+        return dataList;
     } catch (Exception ex) {
          Logger.getLogger(GetBLSData.class.getName()).log(Level.SEVERE, null, ex);
          return null;

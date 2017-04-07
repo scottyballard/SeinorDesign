@@ -40,10 +40,12 @@ public class DataController {
             db.createRow(item);
         }
     }
-    /*
+    
     public static void main(String [] args)
     {
     	//System.out.println(new File(".").getAbsoluteFile());
-    	addAll(); 
-    }*/
+    	//refreshAll();
+    	//addAll(); 
+    	System.out.println(getTable("Unemployed"));
+    }
 }
