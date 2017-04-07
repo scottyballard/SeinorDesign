@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 public class DataController {
-    static Database db = new Database("root","pass","jdbc:mysql://127.0.0.1:3306/new_schema");
+    static Database db = new Database("root","","jdbc:mysql://97.77.48.250:3306/new_schema");
     static boolean refreshAll()
     {
     	boolean result=false;
