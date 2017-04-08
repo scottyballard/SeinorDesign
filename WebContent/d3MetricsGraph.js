@@ -3,6 +3,7 @@ var req = new XMLHttpRequest();
 req.open("POST", "url");// host/SelectServerlet
 req.send("unemployment");
 req.onreadystatechange = function() {
+	// TODO - remove once post works
 	var theData = JSON.parse(
 			'[{' + 
 				'"Metric": "MetricName",'+
