@@ -70,10 +70,19 @@ public class GetBLSData {
 	is.close();
 	double currentDate = 2000;
 	ArrayList<Data> dataList = new ArrayList<>();
+	int counter = 0;
 	for(double i : data)
 	{
+		if(i==-1)
+		{
+			counter++;
+			continue;
+		}
+		if(counter%12==0)
+			currentDate = Math.round(currentDate);
 		dataList.add(new Data(currentDate, i));
 		currentDate+=1.0/12;
+		counter++;
 	}
         return dataList;
     } catch (Exception ex) {

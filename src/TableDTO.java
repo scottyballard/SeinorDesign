@@ -5,9 +5,10 @@ import com.google.gson.Gson;
 
 public class TableDTO {
 	private ArrayList<Data> data;
-	private TimeInterval time;
-	private String tableName;
+	private transient TimeInterval time;
+	private String metric;
 	private double maxY;
+	private transient String dataSet;
         TableDTO()
         {
             data = new ArrayList<Data>();
@@ -17,6 +18,11 @@ public class TableDTO {
 	String getDataJson(){
 		Gson gson=new Gson();
 		return gson.toJson(data);
+	}
+	String getDTOJson()
+	{
+		Gson gson=new Gson();
+		return gson.toJson(this);
 	}
 	public void setData(ArrayList<Data> data)
 	{
@@ -35,13 +41,19 @@ public class TableDTO {
 		this.time = time;
 	}
 	public String getTableName() {
-		return tableName;
+		return metric;
 	}
 	public void setTableName(String tableName) {
-		this.tableName = tableName;
+		this.metric = tableName;
 	}
 	public ArrayList<Data> getData() {
 		return data;
+	}
+	public String getDataSet() {
+		return dataSet;
+	}
+	public void setDataSet(String dataSet) {
+		this.dataSet = dataSet;
 	}
 
 }

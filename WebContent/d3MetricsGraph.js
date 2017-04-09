@@ -1,45 +1,21 @@
 //HTTP req
 var req = new XMLHttpRequest();
-req.open("POST", "url");// host/SelectServerlet
-req.send("unemployment");
+req.open("POST", "/AllianceLabor/SelectServlet");// host/SelectServlet
+req.setRequestHeader("name", "Unemployed");
+req.send();
 req.onreadystatechange = function() {
 	// TODO - remove once post works
-	var theData = JSON.parse(
-			'[{' + 
-				'"Metric": "MetricName",'+
-				'"MaxY": 80,'+
-				'"Data": ['+
-					'{"Date": 2000.0, "Value": 42},'+
-					'{"Date": 2001, "Value": 30},'+
-					'{"Date": 2001.4166666, "Value": 35},'+
-					'{"Date": 2002, "Value": 50},'+
-					'{"Date": 2003, "Value": 60},'+
-					'{"Date": 2004, "Value": 58},'+
-					'{"Date": 2005, "Value": 75},'+
-					'{"Date": 2016, "Value": 80}]'+
-			  '},'+
-			  '{' + 
-				'"Metric": "MetricName2",'+
-				'"MaxY": 73,'+
-				'"Data": ['+
-					'{"Date": 2000, "Value": 52},'+
-					'{"Date": 2001, "Value": 73},'+
-					'{"Date": 2002, "Value": 64},'+
-					'{"Date": 2003, "Value": 40},'+
-					'{"Date": 2004, "Value": 32},'+
-					'{"Date": 2005, "Value": 50},'+
-					'{"Date": 2016, "Value": 59}]'+
-				'}]');
-	if (req.readyState === XMLHTTPRequest.DONE && req.status == 200) {
+	var theData; 
+	if (req.readyState === 4 && req.status == 200) {
 		theData = JSON.parse(req.responseText);
 	}
-	
+		
 	// set some info from data to setup graph
 	var info = {};
 	var max = 0;
 	for (var i = 0; i < theData.length; i++) {
-		if (theData[i].MaxY > max) {
-			max = theData[i].MaxY;
+		if (theData[i].maxY > max) {
+			max = theData[i].maxY;
 		}
 	}
 	info.maxY = max;
@@ -65,7 +41,7 @@ req.onreadystatechange = function() {
 		
 	// scale the data to fit the graph
 	var xScale = d3.scale.linear()
-	        .domain([2000, 2017]) // TODO - years to show. Start(2000)/end date from data? change depending on options?
+	        .domain([2000, 2018]) // TODO - years to show. Start(2000)/end date from data? change depending on options?
 	        .range([0, width]),
 	    yScale = d3.scale.linear()
 	        .domain([0, info.maxY*1.1])	// metrics value scale
@@ -95,9 +71,16 @@ req.onreadystatechange = function() {
 		
 	// line function to map data to the graph
 	var metricLine = d3.svg.line()
-	.x(function(d) { return xScale(d.Date); })
-	.y(function(d) { return yScale(d.Value); });
-	
+	.x(function(d) { return xScale(d.date); })
+	.y(function(d) { return yScale(d.value); });
+	d3.select(window).on('resize', resize);
+
+	function resize(){
+	    width = window.innerWidth;
+	    height = window.innerHeight;
+	    svg.style({ width: width + 'px', height: height + 'px' });
+	    updateNodes(); // update the nodes incorporating the new width and height
+	}
 	// function to show/hide metric lines
 	function update() {
 		if(this.checked){
@@ -116,7 +99,7 @@ req.onreadystatechange = function() {
 	// for each metric, graph it by default
 	for (var i = 0; i < theData.length; i++) {
 		svg.append("svg:path")
-		.attr("d", metricLine(theData[i].Data))
+		.attr("d", metricLine(theData[i].data))
 		.attr("stroke", color(i))
 		.attr("stroke-width", 2)
 		.attr("fill", "none")
@@ -135,7 +118,7 @@ req.onreadystatechange = function() {
 		
 		// set up the checkboxes
 		var checkboxDiv = document.getElementById("checkboxMetrics");
-		var name = theData[i].Metric;
+		var name = theData[i].metric;
 		checkboxDiv.innerHTML +='<div class="checkboxContainer">' +
 		'<input type="checkbox" name="showMetrics" id="' + name + '" data-metric="' + i + '" checked/>' +
 		'<span style="color:'+ color(i) + '">' + name + '</span>' +
@@ -148,7 +131,7 @@ req.onreadystatechange = function() {
 	}
 		
 	// function to find which point the mouse position corresponds to?
-	var bisect = d3.bisector(function(d) { return xScale(d.Date); }).left;
+	var bisect = d3.bisector(function(d) { return xScale(d.date); }).left;
 
 	// rect to pick up mouse movement
 	svg.append("svg:rect")
@@ -164,18 +147,18 @@ req.onreadystatechange = function() {
 		var x0 = d3.mouse(this)[0];
 		for (var i = 0; i < theData.length; i++) {
 			if (d3.selectAll(".checkboxContainer input")[0][i].dataset.metric === i.toString() && d3.selectAll(".checkboxContainer input")[0][i].checked) {
-			    var num = bisect(theData[i].Data, x0, 1);
-			    var d0 = theData[i].Data[num - 1];
-			    var d1 = theData[i].Data[num];
+			    var num = bisect(theData[i].data, x0, 1);
+			    var d0 = theData[i].data[num - 1];
+			    var d1 = theData[i].data[num];
 			    var d;
 			    if (!d0 || !d1) {
 			    	d = !d0 ? d1 : d0;
 			    }
 			    else {
-			    	d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
+			    	d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 			    }
-			    pointsOnHover[i].attr("transform", "translate(" + xScale(d.Date) + "," + yScale(d.Value) + ")");
-			    pointsOnHover[i].select("text").text("(" + formatDate(d.Date, theData[i]) + ", " + d.Value + ")");
+			    pointsOnHover[i].attr("transform", "translate(" + xScale(d.date) + "," + yScale(d.value) + ")");
+			    pointsOnHover[i].select("text").text("(" + formatDate(d.date, theData[i]) + ", " + d.value + ")");
 			    pointsOnHover[i][0][0].style.display = "block";
 			}			
 		}
@@ -202,12 +185,15 @@ req.onreadystatechange = function() {
 	
 		// Insert json data into the table
 		tr = table.insertRow(-1);
-		for (var k = 0; k < theData[i]["Data"].length; k++) {
+		var len = theData[i].data.length;
+		for (var k = 0; k < len; k++) {
+			if(theData[i].data[k].value==-1)
+				continue;
 			tr = table.insertRow(-1);
         	var tabCell = tr.insertCell(0);
-        	tabCell.innerHTML = formatDate(theData[i]["Data"][k].Date);
+        	tabCell.innerHTML = formatDate(theData[i].data[k].date);
         	var tabCell = tr.insertCell(1);
-        	tabCell.innerHTML = theData[i]["Data"][k].Value;
+        	tabCell.innerHTML = theData[i].data[k].value;
         }
 	
 		//Put table into container ready to display

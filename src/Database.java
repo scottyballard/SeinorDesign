@@ -70,7 +70,7 @@ public class Database {
 			Gson gson= new Gson();
 			result.setTableName(tableName);
 			result.setTime(TimeInterval.valueOf(rs.getString(3)));
-			result.setData((ArrayList<Data>) gson.fromJson(getData, new TypeToken<List<Data>>(){}.getType()));
+			result.setData((ArrayList<Data>) gson.fromJson(getData, new TypeToken<ArrayList<Data>>(){}.getType()));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 public class DataController {
-    static Database db = new Database("root","","jdbc:mysql://97.77.48.250:3306/new_schema");
+    static Database db = new Database("root","","jdbc:mysql://localhost:3306/new_schema");
     static boolean refreshAll()
     {
     	boolean result=false;
@@ -27,7 +27,7 @@ public class DataController {
     static String getTable(String tableName)
     {
     	TableDTO table = db.getData(tableName);
-    	return table.getDataJson();
+    	return table.getDTOJson();
     }
     static void addAll()
     {
@@ -46,6 +46,6 @@ public class DataController {
     	//System.out.println(new File(".").getAbsoluteFile());
     	//refreshAll();
     	//addAll(); 
-    	System.out.println(getTable("Unemployed"));
+    	//System.out.println(getTable("Unemployed"));
     }
 }
