@@ -7,223 +7,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<meta charset="utf-8">
 	<script type="text/javascript" src="d3.min.js"></script>
-	<style>
-	* {
-		box-sizing: border-box;
-		font-family: "Comic Sans MS";
-	}
-	p {
-		position: relative;
-		top: 10px;
-		padding: 10px;
-	}
-	.header {
-		text-align: center;
-		font-size: 1.75em;
-		margin-top: 25px;
-		margin-bottom: 40px;
-	}
-	.buttons {
-		table-layout: fixed;
-		width: 75%;
-		border-collapse: collapse;
-		color: white;
-	}
-	svg {
-		overflow: visible;
-	}
-	#checkboxMetrics .checkboxContainer {
-		display: inline;
-		position: relative;
-		margin: 5px 10px;
-	}
-	#checkboxMetrics input {
-		width: 15px;
-		height: 15px;
-	}
-	
-	/* desktop view */
-	@media ( min-width : 992px) {
-		.buttons button {
-			width: 100%;
-			background-color: #FFFFFF;
-			color: black;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 26px;
-			cursor: pointer;
-		}
-		h1 {
-			font-size: 40px;
-		}
-		.imgLogo {
-			padding-top: .25cm;
-			width: 200px;
-		}
-		svg {
-			width: 800px;
-			height: 500px;
-		}
-		.imgRefresh {
-			align: middle;
-			margin-top: -30px;
-			width: 45px;
-		}
-		table, th, td 
-        {
-			margin:10px 0;
-			border:solid 1px #333;
-			padding:2px 4px;
-			font:15px Verdana;
-			width: 800px;
-			text-align: center;
-		}
-		th {
-			font-weight:bold;
-		}
-	}
-	
-	/* tablet view */
-	@media ( min-width : 768px) and (max-width: 991px) {
-		.buttons button {
-			width: 100%;
-			background-color: #FFFFFF;
-			color: black;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 26px;
-			cursor: pointer;
-		}
-		h1 {
-			font-size: 40px;
-		}
-		.imgLogo {
-			padding-top: .25cm;
-			width: 200px;
-		}
-		svg {
-			width: 600px;
-			height: 500px;
-		}
-		.imgRefresh {
-			align: middle;
-			margin-top: -30px;
-			width: 40px;
-		}
-		table, th, td 
-		{
-			margin:10px 0;
-			border:solid 1px #333;
-			padding:2px 4px;
-			font:15px Verdana;
-			width: 600px;
-			text-align: center;
-		}
-		th {
-            font-weight:bold;
-        }
-	}
-	/* mobile view larger screens*/
-	@media ( min-width : 420px) and (max-width: 767px) {
-		.buttons button {
-			width: 100%;
-			background-color: #FFFFFF;
-			color: black;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 20px;
-			cursor: pointer;
-		}
-		h1 {
-			font-size: 35px;
-		}
-		.imgLogo {
-			padding-top: .25cm;
-			width: 200px;
-		}
-		svg {
-			width: 375px;
-			height: 400px;
-		}
-		.imgRefresh {
-			align: middle;
-			margin-top: -30px;
-			width: 35px;
-		}
-		table, th, td 
-        {
-            margin:10px 0;
-            border:solid 1px #333;
-            padding:2px 4px;
-            font:15px Verdana;
-			width: 420px;
-			text-align: center;
-        }
-        th {
-            font-weight:bold;
-        }
-	}
-	
-	/* mobile view smaller screens*/
-	@media ( max-width : 419px) {
-		.buttons button {
-			width: 100%;
-			background-color: #FFFFFF;
-			color: black;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 16px;
-			cursor: pointer;
-		}
-		h1 {
-			font-size: 26px;
-		}
-		.imgLogo {
-			padding-top: .5cm;
-			width: 125px;
-		}
-		svg {
-			width: 300px;
-			height: 400px;
-		}
-		.imgRefresh {
-			align: middle;
-			margin-top: -30px;
-			width: 30px;
-		}
-		table, th, td 
-        {
-            margin:10px 0;
-            border:solid 1px #333;
-            padding:2px 4px;
-            font:15px Verdana;
-			width: 325px;
-			text-align: center;
-        }
-        th {
-            font-weight:bold;
-        }
-		select {
-			width: 125px;
-			font-size: 10px;
-		}
-	}
-	</style>
-</head>
+	<link rel="stylesheet" type="text/css" href="DataPageStyles.css" />
+  </head>
 
-<body>
+  <body>
 	<!--The logo for alliance data.-->
 	<img src="http://photos.prnewswire.com/prnvar/20051024/ADSLOGO?max=700" class="imgLogo" align=right onclick="location.href='https://www.alliancedata.com/';">
 
 	<!--Dropdown menu-->
 	<br>
-	<select>
-		<option selected disabled>Menu</option>
-		<option value="Administrator settings" onclick="location.href='AdministratorSettings.html';">Administrator Settings</option>
+	<select onchange="setCookieTitle(this)">
+		<option value="Menu"><a href="LandingPageAdmin.html">Menu</a></option>
 		<option value="CPS program 1" onclick="setCookieTitle('CPS Program 1 Data')">CPS program 1</option>
 		<option value="CPS program 2" onclick="setCookieTitle('CPS Program 2 Data')">CPS program 2</option>
 		<option value="JOLTS program" onclick="setCookieTitle('JOLTS Program Data')">JOLTS program</option>
@@ -231,7 +25,6 @@
 		<option value="CPI program" onclick="setCookieTitle('CPI Program Data')">CPI program</option>
 		<option value="Labour Force Survey Program" onclick="setCookieTitle('Labour Force Survey Program Data')">Labour Force Survey Program</option>
 		<option value="Eurostat" onclick="setCookieTitle('Eurostat Data')">Eurostat</option>
-		<option value="Edit Sources" onclick="location.href='EditSources.html';">Edit Sources</option>
 		<option value="Refresh All" onclick="location.href='RefreshAll.html';">Refresh All</option>
 	</select>
 
@@ -243,52 +36,55 @@
 	</center>
 	<br>
 
+
 	<script>
-    var element = document.getElementById("header");
-    element.innerHTML = document.cookie;
-
-	function setCookieTitle(text) {
-    	document.cookie = text;
-		window.location.assign("DataPageAdmin.html")
-	}
-    </script>
-<script type="text/javascript">
-    function selectElementContents(el) {
-        var body = document.body, range, sel;
-        if (document.createRange && window.getSelection) {
-            range = document.createRange();
-            sel = window.getSelection();
-            sel.removeAllRanges();
-            try {
-                range.selectNodeContents(el);
-                sel.addRange(range);
-            } catch (e) {
-                range.selectNode(el);
-                sel.addRange(range);
-            }
-            document.execCommand("copy");
-
-        } else if (body.createTextRange) {
-            range = body.createTextRange();
-            range.moveToElementText(el);
-            range.select();
-            range.execCommand("Copy");
-        }
-    }
-</script>
+	    var element = document.getElementById("header");
+	    element.innerHTML = document.cookie;
+	
+	    function setCookieTitle(text) {
+			document.cookie = "";
+	    	document.cookie = text;
+	    	if (text.value) {
+	    		document.cookie = text.value;
+	    	}
+	 		window.location.assign("DataPageAdmin.html");
+		}
+		
+	    function selectElementContents(el) {
+	        var body = document.body, range, sel;
+	        if (document.createRange && window.getSelection) {
+	            range = document.createRange();
+	            sel = window.getSelection();
+	            sel.removeAllRanges();
+	            try {
+	                range.selectNodeContents(el);
+	                sel.addRange(range);
+	            } catch (e) {
+	                range.selectNode(el);
+	                sel.addRange(range);
+	            }
+	            document.execCommand("copy");
+	
+	        } else if (body.createTextRange) {
+	            range = body.createTextRange();
+	            range.moveToElementText(el);
+	            range.select();
+	            range.execCommand("Copy");
+	        }
+	    }
+	</script>
+	
 	<center>
 		<div id="checkboxMetrics"></div>
 		<br/>
 		<div id="graphContent"></div>
 		<br/><br/><br/>
 		<button id="exportButton">Download Image</button>
-		<input type="button" value="Copy to Clipboard"
-   onclick="selectElementContents( document.getElementById('TableHere') );">
+		<input type="button" value="Copy Table to Clipboard" onclick="selectElementContents(document.getElementById('TableHere'));">
 		<div id="TableHere"></div>		
 	</center>
 	<script type="text/javascript" src="d3MetricsGraph.js"></script>
 	
-</body>
-
-
+</body>	
+  </body>
 </html>

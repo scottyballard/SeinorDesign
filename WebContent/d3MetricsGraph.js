@@ -1,11 +1,12 @@
 //HTTP req
+
 var req = new XMLHttpRequest();
 req.open("POST", "/AllianceLabor/SelectServlet");// host/SelectServlet
 req.setRequestHeader("name", "Unemployed");
 req.send();
 req.onreadystatechange = function() {
 	// TODO - remove once post works
-	var theData; 
+	var theData;
 	if (req.readyState === 4 && req.status == 200) {
 		theData = JSON.parse(req.responseText);
 	}
@@ -34,6 +35,10 @@ req.onreadystatechange = function() {
 		width = parseInt(window.getComputedStyle(d3.select("svg")[0][0]).width.slice(0, -2));
 		height = parseInt(window.getComputedStyle(d3.select("svg")[0][0]).height.slice(0, -2));
 	}
+	else if (navigator.userAgent.match(/Trident\/7\./)) {	//IE
+		width = parseInt(window.getComputedStyle(d3.select("svg")[0][0]).width.slice(0, -2));
+		height = parseInt(window.getComputedStyle(d3.select("svg")[0][0]).height.slice(0, -2));
+	}
 	else {	// chrome...
 		width = d3.select("svg")[0][0].clientWidth;
 		height = d3.select("svg")[0][0].clientHeight;
@@ -52,6 +57,9 @@ req.onreadystatechange = function() {
 		.scale(xScale)
 		.orient("bottom")
 		.tickFormat(d3.format("d")); // remove commas
+	if (width < 500) {	// show less labels for small screens
+		xAxis.ticks(3);
+	}
 	var yAxis = d3.svg.axis()
 		.scale(yScale)
 		.orient("left");
@@ -79,7 +87,7 @@ req.onreadystatechange = function() {
 	    width = window.innerWidth;
 	    height = window.innerHeight;
 	    svg.style({ width: width + 'px', height: height + 'px' });
-	    updateNodes(); // update the nodes incorporating the new width and height
+	    //updateNodes(); // update the nodes incorporating the new width and height
 	}
 	// function to show/hide metric lines
 	function update() {
@@ -207,7 +215,7 @@ req.onreadystatechange = function() {
 		var monthNum = [0, 1/12, 2/12, 3/12, 4/12, 5/12, 6/12, 7/12, 8/12, 9/12, 10/12, 11/12, 1];
 
 		var formatted = months[0];
-		if (date.toString().includes(".")) {
+		if (date.toString().indexOf(".") > 0) {
 			var date2 = Math.round(parseFloat(date.toString().substring(date.toString().indexOf(".")))* 100)/100;
 			for (var i = 0; i < 12; i++) {
 				if (date2 === Math.round(monthNum[i]*100)/100) {

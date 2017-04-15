@@ -1,0 +1,125 @@
+* {
+		box-sizing: border-box;
+	}
+	p {
+		position: relative;
+		top: 10px;
+		padding: 10px;
+	}
+	.header {
+		text-align: center;
+		font-size: 1.75em;
+		margin-top: 25px;
+		margin-bottom: 40px;
+	}
+	.buttons 
+	{ 
+    	table-layout: fixed;
+  		width: 75%;
+  		border-collapse: collapse;
+        color: white;
+	}
+
+	/* desktop view */
+	@media (min-width: 992px) 
+	{
+		.buttons button 
+		{ 
+  			width: 100%;
+      		background-color: #FFFFFF;
+    		color: black;
+    		text-align: center;
+    		text-decoration: none;
+    		display: inline-block;
+    		font-size: 26px;
+    		cursor: pointer;
+		}
+		h1
+		{
+			font-size: 40px;
+		}
+		img 
+		{ 
+			padding-top: .25cm;
+    		width: 200px; 
+		}
+	}
+
+	/* tablet view */
+	@media (min-width: 768px) and (max-width: 991px) 
+	{
+		.buttons button 
+    	{ 
+  			width: 100%;
+      		background-color: #FFFFFF;
+    		color: black;
+    		text-align: center;
+    		text-decoration: none;
+    		display: inline-block;
+    		font-size: 26px;
+    		cursor: pointer;
+		}
+		h1
+		{
+			font-size: 40px;
+		}
+		img 
+		{ 
+			padding-top: .25cm;
+    		width: 200px; 
+		}
+	}
+	/* mobile view larger screens*/
+	@media (min-width: 420px) and (max-width: 767px) 
+	{
+		.buttons button 
+    	{ 
+  			width: 100%;
+      		background-color: #FFFFFF;
+    		color: black;
+    		text-align: center;
+   			text-decoration: none;
+    		display: inline-block;
+    		font-size: 20px;
+    		cursor: pointer;
+		}
+		h1
+		{
+			font-size: 35px;
+		}
+		img 
+		{ 
+			padding-top: .25cm;
+    		width: 200px; 
+		}
+	}
+
+	/* mobile view smaller screens*/
+	@media (max-width: 419px) 
+	{
+		.buttons button 
+    	{ 
+  			width: 100%;
+      		background-color: #FFFFFF;
+		    color: black;
+    		text-align: center;
+    		text-decoration: none;
+    		display: inline-block;
+    		font-size: 16px;
+    		cursor: pointer;
+		}
+		h1
+		{
+			font-size: 26px;
+		}
+		img 
+		{ 
+			padding-top: .5cm;
+    		width: 125px; 
+		}
+		select
+		{
+			width: 125px;
+			font-size: 10px;
+		}
+	}

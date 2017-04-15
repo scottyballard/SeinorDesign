@@ -1,0 +1,205 @@
+	* {
+		box-sizing: border-box;
+	}
+	p {
+		position: relative;
+		top: 10px;
+		padding: 10px;
+	}
+	.header {
+		text-align: center;
+		font-size: 1.75em;
+		margin-top: 25px;
+		margin-bottom: 40px;
+	}
+	.buttons {
+		table-layout: fixed;
+		width: 75%;
+		border-collapse: collapse;
+		color: white;
+	}
+	svg {
+		overflow: visible;
+	}
+	#checkboxMetrics .checkboxContainer {
+		display: inline;
+		position: relative;
+		margin: 5px 10px;
+	}
+	#checkboxMetrics input {
+		width: 15px;
+		height: 15px;
+	}
+	
+	/* desktop view */
+	@media ( min-width : 992px) {
+		.buttons button {
+			width: 100%;
+			background-color: #FFFFFF;
+			color: black;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 26px;
+			cursor: pointer;
+		}
+		h1 {
+			font-size: 40px;
+		}
+		.imgLogo {
+			padding-top: .25cm;
+			width: 200px;
+		}
+		svg {
+			width: 800px;
+			height: 500px;
+		}
+		.imgRefresh {
+			align: middle;
+			margin-top: -30px;
+			width: 45px;
+		}
+		table, th, td 
+        {
+			margin:10px 0;
+			border:solid 1px #333;
+			padding:2px 4px;
+			font:15px Verdana;
+			width: 800px;
+			text-align: center;
+		}
+		th {
+			font-weight:bold;
+		}
+	}
+	
+	/* tablet view */
+	@media ( min-width : 768px) and (max-width: 991px) {
+		.buttons button {
+			width: 100%;
+			background-color: #FFFFFF;
+			color: black;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 26px;
+			cursor: pointer;
+		}
+		h1 {
+			font-size: 40px;
+		}
+		.imgLogo {
+			padding-top: .25cm;
+			width: 200px;
+		}
+		svg {
+			width: 600px;
+			height: 500px;
+		}
+		.imgRefresh {
+			align: middle;
+			margin-top: -30px;
+			width: 40px;
+		}
+		table, th, td 
+		{
+			margin:10px 0;
+			border:solid 1px #333;
+			padding:2px 4px;
+			font:15px Verdana;
+			width: 600px;
+			text-align: center;
+		}
+		th {
+            font-weight:bold;
+        }
+	}
+	/* mobile view larger screens*/
+	@media ( min-width : 420px) and (max-width: 767px) {
+		.buttons button {
+			width: 100%;
+			background-color: #FFFFFF;
+			color: black;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 20px;
+			cursor: pointer;
+		}
+		h1 {
+			font-size: 35px;
+		}
+		.imgLogo {
+			padding-top: .25cm;
+			width: 200px;
+		}
+		svg {
+			width: 375px;
+			height: 400px;
+			margin-left: -10%;
+		}
+		.imgRefresh {
+			align: middle;
+			margin-top: -30px;
+			width: 35px;
+		}
+		table, th, td 
+        {
+            margin:10px 0;
+            border:solid 1px #333;
+            padding:2px 4px;
+            font:15px Verdana;
+			width: 420px;
+			text-align: center;
+        }
+        th {
+            font-weight:bold;
+        }
+	}
+	
+	/* mobile view smaller screens*/
+	@media ( max-width : 419px) {
+		.buttons button {
+			width: 100%;
+			background-color: #FFFFFF;
+			color: black;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			cursor: pointer;
+		}
+		h1 {
+			font-size: 26px;
+		}
+		.imgLogo {
+			padding-top: .5cm;
+			width: 125px;
+		}
+		svg {
+			width: 275px;
+			height: 400px;
+			margin-left: -20%;
+		}
+		.imgRefresh {
+			align: middle;
+			margin-top: -30px;
+			width: 30px;
+		}
+		table, th, td 
+        {
+            margin:10px 0;
+            border:solid 1px #333;
+            padding:2px 4px;
+            font:15px Verdana;
+			width: 325px;
+			text-align: center;
+        }
+        th {
+            font-weight:bold;
+        }
+		select {
+			width: 125px;
+			font-size: 10px;
+		}
+	}
