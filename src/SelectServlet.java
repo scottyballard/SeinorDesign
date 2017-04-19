@@ -2,8 +2,6 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,9 +23,9 @@ public class SelectServlet extends HttpServlet {
 	{
 		response.addHeader("Content-Type", "application/json");
 		String tableName = request.getHeader("name");
-		String jsonResult = DataController.getTable(tableName);
+		String jsonResult = DataController.getGroup(tableName);
 		PrintWriter print = response.getWriter();
-		print.print("["+jsonResult+"]");		
+		print.print(jsonResult);		
 	}
 
 }

@@ -1,16 +1,11 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.sql.*;
-
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 ;
@@ -150,6 +145,21 @@ public class Database {
             }
             
         }
+        ArrayList<String> getSeriesGroup(String group){
+            
+            ArrayList<String> result= new ArrayList<>();
+            try {
+                rs=stmt.executeQuery("SELECT * FROM series_mapping WHERE GroupName = '"+group+"';");
+                while(rs.next()){
+                    result.add(rs.getString(1));
+                }
+                return result;
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+            
+        }
         
         boolean addSeries(String tableName, String seriesID){
             try {
@@ -180,7 +190,7 @@ public class Database {
 				//e.printStackTrace();
 			}
 			try {
-				stmt.execute("CREATE TABLE series_mapping (TableName varchar(100) primary key, SeriesName varchar(30));");
+				stmt.execute("CREATE TABLE series_mapping (TableName varchar(100) primary key, SeriesName varchar(30), GroupName varchar(10));");
 				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -192,7 +202,7 @@ public class Database {
 				while((line = reader.readLine())!=null)
 				{
 					String [] mapping = line.split(",");
-					stmt.execute("INSERT INTO series_mapping VALUES('"+mapping[0]+"', '"+mapping[1]+"');");
+					stmt.execute("INSERT INTO series_mapping VALUES('"+mapping[0]+"', '"+mapping[1]+"', '"+mapping[2]+"');");
 				}
 				reader.close();
 			} catch (IOException e) {

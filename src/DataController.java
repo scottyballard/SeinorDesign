@@ -1,6 +1,7 @@
 
-import java.io.File;
 import java.util.ArrayList;
+
+import com.google.gson.Gson;
 
 
 public class DataController {
@@ -29,6 +30,17 @@ public class DataController {
     	TableDTO table = db.getData(tableName);
     	return table.getDTOJson();
     }
+    static String getGroup(String group)
+    {
+    	ArrayList<String> tableList = db.getSeriesGroup(group);
+    	ArrayList<TableDTO> tables = new ArrayList<TableDTO>();
+    	for(String tableName : tableList)
+    	{
+    		tables.add(db.getData(tableName));
+    	}
+    	Gson gson = new Gson();
+    	return gson.toJson(tables.toArray());
+    }
     static void addAll()
     {
         ArrayList<String> series = db.getAllSeries();
@@ -46,6 +58,7 @@ public class DataController {
     	//System.out.println(new File(".").getAbsoluteFile());
     	//refreshAll();
     	//addAll(); 
-    	//System.out.println(getTable("Unemployed"));
+    	//System.out.println(db.getSeriesGroup("Emp").get(0));
+    	//db.getSeriesGroup("Emp");
     }
 }

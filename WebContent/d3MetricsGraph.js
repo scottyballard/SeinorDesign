@@ -2,7 +2,8 @@
 
 var req = new XMLHttpRequest();
 req.open("POST", "/AllianceLabor/SelectServlet");// host/SelectServlet
-req.setRequestHeader("name", "Unemployed");
+var element = document.getElementById("header");
+req.setRequestHeader("name", "Emp");
 req.send();
 req.onreadystatechange = function() {
 	// TODO - remove once post works

@@ -25,14 +25,14 @@
 		<option value="CPI program" onclick="setCookieTitle('CPI Program Data')">CPI program</option>
 		<option value="Labour Force Survey Program" onclick="setCookieTitle('Labour Force Survey Program Data')">Labour Force Survey Program</option>
 		<option value="Eurostat" onclick="setCookieTitle('Eurostat Data')">Eurostat</option>
-		<option value="Refresh All" onclick="location.href='RefreshAll.html';">Refresh All</option>
+		<option value="Refresh All" onclick="refreshAll()">Refresh All</option>
 	</select>
 
 	<br/><br/><br/><br/>
 	<h1 id="header" align=center>Title of Data Page</h1>
 	<br>
 	<center>
-		<img src="http://images.gofreedownload.net/rounded-blue-refresh-button-26755.jpg" class="imgRefresh" onClick="window.location.reload()">
+		<img src="http://images.gofreedownload.net/rounded-blue-refresh-button-26755.jpg" class="imgRefresh" onClick="refreshAll()">
 	</center>
 	<br>
 
@@ -71,6 +71,11 @@
 	            range.select();
 	            range.execCommand("Copy");
 	        }
+	    }
+	    function refreshAll() {
+	    	var req = new XMLHttpRequest();
+	    	req.open("GET", "/AllianceLabor/RefreshServlet");
+	    	req.send();
 	    }
 	</script>
 	
