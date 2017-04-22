@@ -3,7 +3,7 @@
 var req = new XMLHttpRequest();
 req.open("POST", "/AllianceLabor/SelectServlet");// host/SelectServlet
 var element = document.getElementById("header");
-req.setRequestHeader("name", "Emp");
+req.setRequestHeader("name", element.innerHTML);
 req.send();
 req.onreadystatechange = function() {
 	// TODO - remove once post works

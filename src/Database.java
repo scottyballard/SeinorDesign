@@ -190,7 +190,7 @@ public class Database {
 				//e.printStackTrace();
 			}
 			try {
-				stmt.execute("CREATE TABLE series_mapping (TableName varchar(100) primary key, SeriesName varchar(30), GroupName varchar(10));");
+				stmt.execute("CREATE TABLE series_mapping (TableName varchar(100) primary key, SeriesName varchar(30), GroupName varchar(20));");
 				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

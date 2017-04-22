@@ -19,6 +19,10 @@ public class SelectServlet extends HttpServlet {
     public SelectServlet() {
         super();
     }
+    /**
+     * <p>Servlet to service requests for Data</p>
+     * Uses POST to get the name of a group of Metrics and returns them as a JSON array
+     */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		response.addHeader("Content-Type", "application/json");

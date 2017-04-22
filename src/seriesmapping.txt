@@ -1,17 +1,17 @@
-Employed,LNS12000000,Emp
-Civilian NonInstitutional Population,LNS10000000,LF
-Civilian Labor Force Participation Rate,LNS11300000,LF
-Employed Full Time,LNS12500000,Emp
-Employed Part Time,LNS12600000,Emp
-Unemployed,LNS13000000,Emp
+Employed,LNS12000000,US Employment
+Civilian NonInstitutional Population,LNS10000000,US Employment
+Civilian Labor Force Participation Rate,LNS11300000,US Employment
+Employed Full Time,LNS12500000,US Employment
+Employed Part Time,LNS12600000,US Employment
+Unemployed,LNS13000000,US Employment
 Unemployment Rate,LNS14000000,Emp
-CPS2 Program,LNS15026639,Emp
+CPS2 Program,LNS15026639,Labor Force
 Job openings,JTS00000000JOR,JOLTS
 Hires,JTS00000000HIR,JOLTS
 Quits,JTS00000000QUR,JOLTS
 Layoffs and discharges,JTS00000000LDR,JOLTS
 Other seperations,JTS00000000OSR,JOLTS
-Private Industry Workers(12month%),CIU2010000000000A,COMP
-Private Industry Workers(Index),CIS2010000000000I,COMP
-Private Industry Workers(wages and saleries),CIU2020000000000A,COMP
-Urban Consumers,CUUR0000SA0,CONS
+Total Compensation YOY,CIU2010000000000A,Costs
+Total Compensation Index,CIS2010000000000I,Costs
+Wages and Saleries YOY(wages and saleries),CIU2020000000000A,Costs
+CPI YOY,CUUR0000SA0,Inflation

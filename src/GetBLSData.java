@@ -75,6 +75,18 @@ public class GetBLSData {
 	{
 		if(i==-1)
 		{
+			if(seriesID.startsWith("CI"))
+				currentDate+=1.0/4;
+			else
+				currentDate+=1.0/12;
+			counter++;
+			continue;
+		}
+		//very janky fix for quarterly real fix later
+		if(seriesID.startsWith("CI"))
+		{
+			dataList.add(new Data(currentDate, i));
+			currentDate+=1.0/4;
 			counter++;
 			continue;
 		}
