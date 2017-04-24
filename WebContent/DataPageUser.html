@@ -16,22 +16,44 @@
 
     <!--Dropdown menu-->
 	<br>
-	<select onchange="setCookieTitle(this)">
-		<option value="Menu"><a href="LandingpageUser.html">Menu</a></option>
-  		<option value="CPS program 1" onclick="setCookieTitle('CPS Program 1 Data')">CPS program 1</option>
-  		<option value="CPS program 2" onclick="setCookieTitle('CPS Program 2 Data')">CPS program 2</option>
-  		<option value="JOLTS program" onclick="setCookieTitle('JOLTS Program Data')" >JOLTS program</option>
-      	<option value="ECT program" onclick="setCookieTitle('ECT Program Data')" >ECT program</option>
-      	<option value="CPI program" onclick="setCookieTitle('CPI Program Data')" >CPI program</option>
-      	<option value="Labour Force Survey Program" onclick="setCookieTitle('Labour Force Survey Program Data')">Labour Force Survey Program</option>
-      	<option value="Eurostat" onclick="setCookieTitle('Eurostat Data')" >Eurostat</option>
+	<select id="selectOptions" onchange="setCookieTitle(this)">
+		<option value="Menu">Menu</option>
+  		<option value="US Employment" onclick="setCookieTitle('US Employment')">US Employment</option>
+		<option value="Labor Force" onclick="setCookieTitle('Labor Force')">Labor Force</option>
+		<option value="JOLTS" onclick="setCookieTitle('JOLTS')" >JOLTS</option>
+		<option value="Costs" onclick="setCookieTitle('Costs')" >Costs</option>
+	  	<option value="Inflation" onclick="setCookieTitle('Inflation')" >Inflation</option>
 	</select>
     
-    <br> <br> <br> <br>
-    <h1 id = "header" align = center>Title of Data Page</h1>
+    <br/><br/><br/><br/>
+    <h1 id="header" align="center">Title of Data Page</h1>
     <br> 
     <br>
 
+     
+     <script>
+     	var element = document.getElementById("header");
+	    var title = document.cookie.substring(document.cookie.indexOf("titleCookie=", 0) + 12);
+	    title.replace(new RegExp(";expires.*$"), "");
+	    element.innerHTML = title;
+	    
+	    var selected = document.getElementById("selectOptions");
+	    selected.value = title;
+	    
+	    function setCookieTitle(text) {
+	    	var cookieValue = "titleCookie=";
+	    	// clear/expire previous cookie
+	    	document.cookie = document.cookie.replace(new RegExp("expires=.*$"), "expires=Thu, 01 Jan 1970 00:00:00 GMT");
+	    	document.cookie = ""; // for non-apple
+	    	var today = new Date();
+	    	today.setTime(today.getTime() + 3600000*24);
+	    	cookieValue += text.value ? text.value : text;
+	    	cookieValue += ";expires=" + today.toGMTString();
+	    	document.cookie = cookieValue;
+	 		window.location.assign("DataPageUser.html")
+		}
+	
+    </script>
     <center>
     	<div id="checkboxMetrics"></div>
 		<br/>
@@ -40,20 +62,6 @@
 		<button id="exportButton">Download Image</button>
 		<div id="TableHere"></div>		
      </center>
-     
-     <script>
-    var element = document.getElementById("header");
-    element.innerHTML = document.cookie;
-
-    function setCookieTitle(text) {
-		document.cookie = "";
-    	document.cookie = text;
-    	if (text.value) {
-    		document.cookie = text.value;
-    	}
- 		window.location.assign("DataPageUser.html")
-	}
-    </script>
 	<script type="text/javascript" src="d3MetricsGraph.js"></script>
   </body>
 </html>

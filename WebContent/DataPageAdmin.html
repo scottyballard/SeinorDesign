@@ -16,7 +16,7 @@
 
 	<!--Dropdown menu-->
 	<br>
-	<select onchange="setCookieTitle(this)">
+	<select id="selectOptions" onchange="setCookieTitle(this)">
 		<option value="Menu">Menu</option>
 		<option value="US Employment" onclick="setCookieTitle('US Employment')">US Employment</option>
 		<option value="Labor Force" onclick="setCookieTitle('Labor Force')">Labor Force</option>
@@ -27,27 +27,36 @@
 	</select>
 
 	<br/><br/><br/><br/>
-	<h1 id="header" align=center>Title of Data Page</h1>
+	<h1 id="header" align="center">Title of Data Page</h1>
 	<br>
 	<center>
 		<img src="http://images.gofreedownload.net/rounded-blue-refresh-button-26755.jpg" class="imgRefresh" onClick="refreshAll()">
 	</center>
 	<br>
 
-
 	<script>
 	    var element = document.getElementById("header");
-	    element.innerHTML = document.cookie;
-	
+	    var title = document.cookie.substring(document.cookie.indexOf("titleCookie=", 0) + 12);
+	    title.replace(new RegExp(";expires.*$"), "");
+	    element.innerHTML = title;
+	    
+	    var selected = document.getElementById("selectOptions");
+	    selected.value = title;
+	    
 	    function setCookieTitle(text) {
-			document.cookie = "";
-	    	document.cookie = text;
-	    	if (text.value) {
-	    		document.cookie = text.value;
-	    	}
-	 		window.location.assign("DataPageAdmin.html");
+	    	var cookieValue = "titleCookie=";
+	    	// clear/expire previous cookie
+	    	document.cookie = document.cookie.replace(new RegExp("expires=.*$"), "expires=Thu, 01 Jan 1970 00:00:00 GMT");
+	    	document.cookie = ""; // for non-apple
+	    	var today = new Date();
+	    	today.setTime(today.getTime() + 3600000*24);
+	    	cookieValue += text.value ? text.value : text;
+	    	cookieValue += ";expires=" + today.toGMTString();
+	    	document.cookie = cookieValue;
+	 		window.location.assign("DataPageAdmin.html")
 		}
 		
+	    // copy showing tables to clipboard
 	    function selectElementContents(el) {
 	        var body = document.body, range, sel;
 	        if (document.createRange && window.getSelection) {
@@ -88,6 +97,5 @@
 	</center>
 	<script type="text/javascript" src="d3MetricsGraph.js"></script>
 	
-</body>	
   </body>
 </html>

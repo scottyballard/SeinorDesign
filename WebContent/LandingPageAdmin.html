@@ -12,12 +12,16 @@
 
     <script>
     function setCookieTitle(text) {
-		document.cookie = "";
-    	document.cookie = text;
-    	if (text.value) {
-    		document.cookie = text.value;
-    	}
- 		window.location.assign("DataPageAdmin.html")
+	    var cookieValue = "titleCookie=";
+	    // clear/expire previous cookie
+	    document.cookie = document.cookie.replace(new RegExp("expires=.*$"), "expires=Thu, 01 Jan 1970 00:00:00 GMT");
+	    document.cookie = ""; // for non-apple
+	    var today = new Date();
+	    today.setTime(today.getTime() + 3600000*24);
+	    cookieValue += text.value ? text.value : text;
+	    cookieValue += ";expires=" + today.toGMTString();
+	    document.cookie = cookieValue;
+	 	window.location.assign("DataPageAdmin.html")
 	}
     </script>
 
