@@ -23,6 +23,12 @@
 	    document.cookie = cookieValue;
 	 	window.location.assign("DataPageAdmin.html")
 	}
+    
+    function refreshAll() {
+    	var req = new XMLHttpRequest();
+    	req.open("GET", "/AllianceLabor/RefreshServlet");
+    	req.send();
+    }
     </script>
 
     <!--The logo for alliance data.-->
@@ -31,13 +37,12 @@
     <!--Dropdown menu-->
 	<br>
 	<select onchange="setCookieTitle(this)">
-		<option value="Menu">Menu</option>
+		<option value="Menu" onclick="location.href='LandingPageAdmin.html';">Menu</option>
 		<option value="US Employment" onclick="setCookieTitle('US Employment')">US Employment</option>
 		<option value="Labor Force" onclick="setCookieTitle('Labor Force')">Labor Force</option>
 		<option value="JOLTS" onclick="setCookieTitle('JOLTS')" >JOLTS</option>
 		<option value="Costs" onclick="setCookieTitle('Costs')" >Costs</option>
 	  	<option value="Inflation" onclick="setCookieTitle('Inflation')" >Inflation</option>
-		<option value="Refresh All" onclick="location.href='RefreshAll.html';">Refresh All</option>
 	</select>
     
     <br> <br> <br> <br>
@@ -55,6 +60,8 @@
 	    <td><button type="button" onclick="setCookieTitle('Costs')">Costs</button>
 	 <tr>
 	    <td><button type="button" onclick="setCookieTitle('Inflation')">Inflation</button>
+	 <tr>
+	    <td><button type="button" onclick="refreshAll()">Refresh All</button>
 	</table>
 
   </body>
