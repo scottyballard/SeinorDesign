@@ -1,5 +1,4 @@
 //HTTP req
-
 var req = new XMLHttpRequest();
 req.open("POST", "/AllianceLabor/SelectServlet");// host/SelectServlet
 var element = document.getElementById("header");
@@ -11,7 +10,6 @@ req.onreadystatechange = function() {
 	if (req.readyState === 4 && req.status == 200) {
 		theData = JSON.parse(req.responseText);
 	}
-		
 	// set some info from data to setup graph
 	var info = {};
 	var max = 0;
@@ -52,7 +50,7 @@ req.onreadystatechange = function() {
 	    yScale = d3.scale.linear()
 	        .domain([0, info.maxY*1.1])	// metrics value scale
 	        .range([height, 0]);
-
+	
 	// orient the axis
 	var xAxis = d3.svg.axis()
 		.scale(xScale)
@@ -70,11 +68,11 @@ req.onreadystatechange = function() {
 
 	// place axis relative to graph
 	svg.append("g")
-	    .attr("class", "axis") //Assign "axis" class
+	    .attr("class", "axis xaxis") //Assign "axis" class
 	    .attr("transform", "translate(0," + height + ")")
 	    .call(xAxis);
 	svg.append("g")
-	    .attr("class", "axis")
+	    .attr("class", "axis yaxis")
 	    .attr("transform", "translate(0,0)")
 	    .call(yAxis);	
 		
@@ -90,20 +88,40 @@ req.onreadystatechange = function() {
 	    svg.style({ width: width + 'px', height: height + 'px' });
 	    //updateNodes(); // update the nodes incorporating the new width and height
 	}
-	// function to show/hide metric lines
+	// function to show/hide metric lines and resize y scale
 	function update() {
-		if(this.checked){
-			d3.select("svg g.gContainer > path.metric" + this.dataset.metric)[0][0].style.display = "block";
-			document.querySelector(".tableMetric" + this.dataset.metric).style.display = "block";
+		// which metric was clicked -> update y scale
+		var metricNum = parseInt(this.dataset.metric);
+		var max = 0;
+		for (var i = 0; i < theData.length; i++) {
+			if (theData[i].maxY > max && (this.checked || !this.checked && i != metricNum)) {
+				max = theData[i].maxY;
+			}
+		}
+		yScale.domain([0, max*1.1]);
+		svg.select(".yaxis").call(yAxis);
+		metricLine = d3.svg.line()
+		.x(function(d) { return xScale(d.date); })
+		.y(function(d) { return yScale(d.value); });
+		for (var i = 0; i < theData.length; i++) {
+			d3.selectAll(".metric" + i)
+			.attr("d", metricLine(theData[i].data));
+		}
+		
+		// show/hide line
+		if (this.checked) {
+			d3.select("svg g.gContainer > path.metric" + metricNum)[0][0].style.display = "block";
+			document.querySelector(".tableMetric" + metricNum).style.display = "block";
 		}
 		else {
-			d3.selectAll("svg g.gContainer > path.metric" + this.dataset.metric)[0][0].style.display = "none";
-			document.querySelector(".tableMetric" + this.dataset.metric).style.display = "none";
+			d3.selectAll("svg g.gContainer > path.metric" + metricNum)[0][0].style.display = "none";
+			document.querySelector(".tableMetric" + metricNum).style.display = "none";
 		}
 	}
 
 	// "point" to follow mouse for each line array
 	var pointsOnHover = [];
+	var textOnHover = [];
 	
 	// for each metric, graph it by default
 	for (var i = 0; i < theData.length; i++) {
@@ -115,15 +133,20 @@ req.onreadystatechange = function() {
 		.attr("class","metric" + i);
 		
 		// create "point" to follow mouse
-		var focus = svg.append("g")
+		var focusPoint = svg.append("g")
 		.attr("class", "focus")
 		.style("display", "none");
-		focus.append("circle")
+		focusPoint.append("circle")
 		.attr("r", 4);
-		focus.append("text")
+		pointsOnHover.push(focusPoint);
+
+		var focusText = svg.append("g")
+		.attr("class", "focus")
+		.style("display", "none")
 		.attr("x", 9)
 		.attr("dy", ".35em");
-		pointsOnHover.push(focus);
+		focusText.append("text");
+		textOnHover.push(focusText);
 		
 		// set up the checkboxes
 		var checkboxDiv = document.getElementById("checkboxMetrics");
@@ -138,7 +161,7 @@ req.onreadystatechange = function() {
 		
 		d3.selectAll(".checkboxContainer input").on("change", update);
 	}
-		
+	
 	// function to find which point the mouse position corresponds to?
 	var bisect = d3.bisector(function(d) { return xScale(d.date); }).left;
 
@@ -166,9 +189,14 @@ req.onreadystatechange = function() {
 			    else {
 			    	d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 			    }
+			    
 			    pointsOnHover[i].attr("transform", "translate(" + xScale(d.date) + "," + yScale(d.value) + ")");
-			    pointsOnHover[i].select("text").text("(" + formatDate(d.date, theData[i]) + ", " + d.value + ")");
 			    pointsOnHover[i][0][0].style.display = "block";
+			    
+			    var moveText = (xScale(d.date) > width/2) ? -110 : 0;
+			    textOnHover[i].attr("transform", "translate(" + (xScale(d.date) + 10 + moveText) + "," + (yScale(d.value) + 5) + ")");
+			    textOnHover[i].select("text").text("(" + formatDate(d.date, theData[i]) + ", " + d.value + ")");
+			    textOnHover[i][0][0].style.display = "block";
 			}			
 		}
 	});
@@ -176,7 +204,6 @@ req.onreadystatechange = function() {
 	// create a table for each metric
 	function createTable(metricName, dataNum) {
 		// Column headers = date and whatever metric is being used 
-		//var col = ["Date", theData[0].Metric];
 		var col = ["Date", metricName];
 
 		// Create the table
@@ -239,6 +266,7 @@ req.onreadystatechange = function() {
 		 .attr('width', width)
 		 .attr('height', height)
 		 .attr('style', 'display:none')
+		 .attr('download', "pic.png") //???
 		 .node();
 		img.onload = function(){
 		  var canvas = d3.select('body').append('canvas').node();
