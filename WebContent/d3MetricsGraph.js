@@ -1,4 +1,5 @@
 //HTTP req
+
 var req = new XMLHttpRequest();
 req.open("POST", "/AllianceLabor/SelectServlet");// host/SelectServlet
 var element = document.getElementById("header");
@@ -10,6 +11,13 @@ req.onreadystatechange = function() {
 	if (req.readyState === 4 && req.status == 200) {
 		theData = JSON.parse(req.responseText);
 	}
+	/* data for testing purposes
+	theData = '['+
+	'{"metric":"metric!","maxY": 55, "data": [{"date":2005, "value":40},{"date":2006, "value":42},{"date":2007, "value":45},{"date":2009, "value":50},{"date":2014, "value":42}]},' +
+	'{"metric":"metricNumero2!","maxY": 109, "data": [{"date":2005, "value":80},{"date":2006, "value":92},{"date":2007, "value":75},{"date":2009, "value":99}]},'+
+	'{"metric":"metric3","maxY": 2099, "data": [{"date":2005, "value":888},{"date":2006, "value":999},{"date":2007, "value":760},{"date":2009, "value":2099},{"date":2014, "value":1976}]}]';
+	theData = JSON.parse(theData); */
+	
 	// set some info from data to setup graph
 	var info = {};
 	var max = 0;
@@ -88,14 +96,22 @@ req.onreadystatechange = function() {
 	    svg.style({ width: width + 'px', height: height + 'px' });
 	    //updateNodes(); // update the nodes incorporating the new width and height
 	}
+	
 	// function to show/hide metric lines and resize y scale
 	function update() {
 		// which metric was clicked -> update y scale
 		var metricNum = parseInt(this.dataset.metric);
 		var max = 0;
-		for (var i = 0; i < theData.length; i++) {
-			if (theData[i].maxY > max && (this.checked || !this.checked && i != metricNum)) {
-				max = theData[i].maxY;
+		var checkboxes = document.querySelectorAll(".checkboxContainer input");
+		var metricsToScale = [];
+		for (var i = 0; i < checkboxes.length; i++) {
+			if (checkboxes[i].checked) {
+				metricsToScale.push(theData[i]);
+			}
+		}
+		for (var i = 0; i < metricsToScale.length; i++) {
+			if (metricsToScale[i].maxY > max) {
+				max = metricsToScale[i].maxY;
 			}
 		}
 		yScale.domain([0, max*1.1]);
@@ -193,8 +209,8 @@ req.onreadystatechange = function() {
 			    pointsOnHover[i].attr("transform", "translate(" + xScale(d.date) + "," + yScale(d.value) + ")");
 			    pointsOnHover[i][0][0].style.display = "block";
 			    
-			    var moveText = (xScale(d.date) > width/2) ? -110 : 0;
-			    textOnHover[i].attr("transform", "translate(" + (xScale(d.date) + 10 + moveText) + "," + (yScale(d.value) + 5) + ")");
+			    var moveText = (xScale(d.date) > width/2) ? -100 : 0;
+			    textOnHover[i].attr("transform", "translate(" + (xScale(d.date) + moveText) + "," + (yScale(d.value) - 7) + ")");
 			    textOnHover[i].select("text").text("(" + formatDate(d.date, theData[i]) + ", " + d.value + ")");
 			    textOnHover[i][0][0].style.display = "block";
 			}			
