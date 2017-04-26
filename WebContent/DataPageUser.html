@@ -17,7 +17,7 @@
     <!--Dropdown menu-->
 	<br>
 	<select id="selectOptions" onchange="setCookieTitle(this)">
-		<option value="Menu" onclick="location.href='LandingPageUser.html';">Menu</option>
+		<option value="Menu" onclick="setCookieTitle('Menu')">Menu</option>
   		<option value="US Employment" onclick="setCookieTitle('US Employment')">US Employment</option>
 		<option value="Labor Force" onclick="setCookieTitle('Labor Force')">Labor Force</option>
 		<option value="JOLTS" onclick="setCookieTitle('JOLTS')" >JOLTS</option>
@@ -50,7 +50,14 @@
 	    	cookieValue += text.value ? text.value : text;
 	    	cookieValue += ";expires=" + today.toGMTString();
 	    	document.cookie = cookieValue;
-	 		window.location.assign("DataPageUser.html")
+	    	if(text.value =='Menu' )
+		    {
+				window.location.assign("LandingPageAdmin.html")
+			}
+			else
+			{
+			 window.location.assign("DataPageAdmin.html")
+			}
 		}
 	
     </script>
