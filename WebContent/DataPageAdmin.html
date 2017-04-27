@@ -23,14 +23,14 @@
 		<option value="JOLTS" onclick="setCookieTitle('JOLTS')" >JOLTS</option>
 		<option value="Costs" onclick="setCookieTitle('Costs')" >Costs</option>
 	  	<option value="Inflation" onclick="setCookieTitle('Inflation')" >Inflation</option>
-		<option value="Refresh All" onclick="refreshAll()">Refresh All</option>
+	  	<option value="US Employment Rate" onclick="setCookieTitle('US Employment Rate')" >US Employment Rate</option>
 	</select>
 
 	<br/><br/><br/><br/>
 	<h1 id="header" align="center">Title of Data Page</h1>
 	<br>
 	<center>
-		<img src="http://images.gofreedownload.net/rounded-blue-refresh-button-26755.jpg" class="imgRefresh" onClick="refreshAll()">
+		<img src="http://images.gofreedownload.net/rounded-blue-refresh-button-26755.jpg" class="imgRefresh" onClick="refresh()">
 	</center>
 	<br>
 
@@ -79,9 +79,11 @@
 	            range.execCommand("Copy");
 	        }
 	    }
-	    function refreshAll() {
+	    function refresh() {
 	    	var req = new XMLHttpRequest();
-	    	req.open("GET", "/AllianceLabor/RefreshServlet");
+	    	req.open("POST", "/AllianceLabor/RefreshServlet");// host/SelectServlet
+	    	var element = document.getElementById("header");
+	    	req.setRequestHeader("name", element.innerHTML);
 	    	req.send();
 	    }
 	</script>

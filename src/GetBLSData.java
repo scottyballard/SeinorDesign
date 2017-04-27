@@ -90,6 +90,17 @@ public class GetBLSData {
 			counter++;
 			continue;
 		}
+		if(seriesID.startsWith("CUUR0000SA0"))
+		{
+			if((counter%13==0||counter%14==0)&&counter!=0)
+			{
+				if(counter%14==0)
+					counter=0;
+				else
+					counter++;
+				continue;
+			}
+		}
 		if(counter%12==0)
 			currentDate = Math.round(currentDate);
 		dataList.add(new Data(currentDate, i));

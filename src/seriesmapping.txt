@@ -1,10 +1,10 @@
 Employed,LNS12000000,US Employment
 Civilian NonInstitutional Population,LNS10000000,US Employment
-Civilian Labor Force Participation Rate,LNS11300000,US Employment
+Civilian Labor Force Participation Rate,LNS11300000,US Employment Rate
 Employed Full Time,LNS12500000,US Employment
 Employed Part Time,LNS12600000,US Employment
 Unemployed,LNS13000000,US Employment
-Unemployment Rate,LNS14000000,Emp
+Unemployment Rate,LNS14000000,US Employment Rate
 CPS2 Program,LNS15026639,Labor Force
 Job openings,JTS00000000JOR,JOLTS
 Hires,JTS00000000HIR,JOLTS

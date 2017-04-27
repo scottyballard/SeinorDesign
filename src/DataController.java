@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 
 
 public class DataController {
-    static Database db = new Database("root","","jdbc:mysql://localhost:3306/new_schema");
+    static Database db = new Database("alliance","labor","jdbc:mysql://localhost:3306/application_data");
     static boolean refreshAll()
     {
     	boolean result=false;
@@ -19,11 +19,18 @@ public class DataController {
         }
         return result;
     }
-    static boolean singleRefresh(String tableName){
-        TableDTO item = new TableDTO();
-        item.setData(GetBLSData.getData(db.getSeriesID(tableName)));
-        item.setTableName(tableName);
-        return db.singleRefresh(item);
+    static boolean groupRefresh(String groupName){
+    	ArrayList<String> tableList = db.getSeriesGroup(groupName);
+    	boolean result = false;
+        for(String tableName : tableList)
+        {
+            TableDTO item = new TableDTO();
+            String series = db.getSeriesID(tableName);
+            item.setData(GetBLSData.getData(series));
+            item.setTableName(tableName);
+            result = db.singleRefresh(item);
+        }
+        return result;
     }
     static String getTable(String tableName)
     {
@@ -51,14 +58,5 @@ public class DataController {
             item.setTableName(tableNames.get(i));
             db.createRow(item);
         }
-    }
-    
-    public static void main(String [] args)
-    {
-    	//System.out.println(new File(".").getAbsoluteFile());
-    	//refreshAll();
-    	//addAll(); 
-    	//System.out.println(db.getSeriesGroup("Emp").get(0));
-    	//db.getSeriesGroup("Emp");
     }
 }

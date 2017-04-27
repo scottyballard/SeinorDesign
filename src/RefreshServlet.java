@@ -46,7 +46,8 @@ public class RefreshServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String tableName = request.getHeader("name");
 		PrintWriter print = response.getWriter();
-		if(DataController.singleRefresh(tableName))
+		DataController.getGroup(tableName);
+		if(DataController.groupRefresh(tableName))
 			print.print("Success!");
 		else
 			print.print("Failure");
