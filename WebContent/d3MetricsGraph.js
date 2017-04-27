@@ -6,14 +6,13 @@ var element = document.getElementById("header");
 req.setRequestHeader("name", element.innerHTML);
 req.send();
 req.onreadystatechange = function() {
-	// TODO - remove once post works
 	var theData;
 	if (req.readyState === 4 && req.status == 200) {
 		theData = JSON.parse(req.responseText);
 	}
 	/* data for testing purposes
-	theData = '['+
-	'{"metric":"metric!","maxY": 55, "data": [{"date":2005, "value":40},{"date":2006, "value":42},{"date":2007, "value":45},{"date":2009, "value":50},{"date":2014, "value":42}]},' +
+	var theData = '['+
+	'{"metric":"metric!","maxY": 55, "data": [{"date":2005, "value":40},{"date":2006, "value":42},{"date":2007, "value":45},{"date":2009, "value":50},{"date":2018, "value":42}]},' +
 	'{"metric":"metricNumero2!","maxY": 109, "data": [{"date":2005, "value":80},{"date":2006, "value":92},{"date":2007, "value":75},{"date":2009, "value":99}]},'+
 	'{"metric":"metric3","maxY": 2099, "data": [{"date":2005, "value":888},{"date":2006, "value":999},{"date":2007, "value":760},{"date":2009, "value":2099},{"date":2014, "value":1976}]}]';
 	theData = JSON.parse(theData); */
@@ -81,7 +80,7 @@ req.onreadystatechange = function() {
 	    .call(xAxis);
 	svg.append("g")
 	    .attr("class", "axis yaxis")
-	    .attr("transform", "translate(0,0)")
+	    .attr("transform", "translate(6,0)")
 	    .call(yAxis);	
 		
 	// line function to map data to the graph
@@ -271,29 +270,38 @@ req.onreadystatechange = function() {
 	}
 	
 	// export/download as png
-	d3.select('#exportButton').on('click', function() {
+	d3.select("#exportButton").on("click", function() {
 		var doctype = '<?xml version="1.0" standalone="no"?>'
-			  + '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
-		// serialize our SVG XML to a string.
+					+ '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
+		// serialize SVG XML
 		var source = (new XMLSerializer()).serializeToString(d3.select("svg").node());
 		var blob = new Blob([ doctype + source], { type: 'image/svg+xml;charset=utf-8' });
 		var url = window.URL.createObjectURL(blob);
-		var img = d3.select('body').append('img')
-		 .attr('width', width)
-		 .attr('height', height)
-		 .attr('style', 'display:none')
-		 .attr('download', "pic.png") //???
-		 .node();
-		img.onload = function(){
-		  var canvas = d3.select('body').append('canvas').node();
-		  canvas.width = width;
-		  canvas.height = height;
-		  var ctx = canvas.getContext('2d');
-		  ctx.drawImage(img, 0, 0);
-		  var canvasUrl = canvas.toDataURL("image/png");
-		  // this is now the base64 encoded version of our PNG! you could optionally 
-		  // redirect the user to download the PNG by sending them to the url with 
-		  //window.location.href= canvasUrl;
+		// create img from svg blob
+		var img = d3.select("body").append("img")
+		.attr("width", width + 75)
+		.attr("height", height + 25)
+		.attr("style", "display:none")
+		.node();
+		img.onload = function() {
+			// create a canvas to get a url
+			var canvas = d3.select("body").append("canvas")
+			.attr("style", "display:none")
+			.node();
+			canvas.width = width + 75;
+			canvas.height = height + 25;
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
+			var canvasUrl = canvas.toDataURL("image/png");
+			var link = d3.select("body").append("a")
+			.attr("width", width)
+			.attr("height", height)
+			.attr("download", "graph.png")
+			.attr("href", canvasUrl)
+			.attr("class", "downloadGraph")
+			.node();
+			// click the link automatically to click the img "link" to download
+			document.querySelector(".downloadGraph").click();
 		};
 		img.src = url;
 	});
