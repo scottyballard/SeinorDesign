@@ -2,6 +2,7 @@ Readme for Alliance Data Labor App
 
 Prerequisites:
 -Have a Tomcat7 server installed on the host machine
+-add mysql java connector and gson jars to the libs folder on the tomcat server
 -Have a mysql DB running on the same host at port 3306 with:
    -a db user with the username alliance, password labor
    -a db schema with the title application_data
